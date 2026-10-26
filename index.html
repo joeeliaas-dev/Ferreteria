@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="es" data-theme="light">
+<html lang="es" data-theme="light" data-viewport="desktop">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>FerreMax Pro — Ferretería Industrial | Prototipo SPA Material Design 3</title>
-  <meta name="description" content="Prototipo funcional y navegable de ferretería industrial basado en Material Design 3 y Leyes de UX (Jakob, Hick, Fitts, Reconocimiento sobre Recuerdo)." />
+  <meta name="description" content="Prototipo funcional y navegable de ferretería industrial en vista de escritorio y móvil basado en Material Design 3 y Leyes de UX." />
 
   <!-- Google Fonts: Roboto & JetBrains Mono (Material Design 3 Type Scale) -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -20,709 +20,830 @@
 <body>
 
   <!-- ====================================================================
-       UX PROTOTYPE INSPECTOR BAR (Quick Access to States & UX Principles)
+       PROTOTYPE CONTROL & VIEWPORT TOOLBAR (Desktop / Mobile View Switcher)
        ==================================================================== -->
-  <aside class="ux-inspector-bar" aria-label="Barra de inspección de estados UX y Material Design 3">
+  <aside class="ux-inspector-bar" aria-label="Barra de control de vista y estados UX">
     <div class="ux-inspector-bar__inner">
       <div class="ux-inspector-bar__badges">
-        <span class="ux-pill"><strong>Material Design 3</strong> Tokens & Elevaciones</span>
-        <span class="ux-pill"><strong>Ley de Jakob</strong> E-commerce clásico</span>
-        <span class="ux-pill"><strong>Ley de Hick</strong> Filtros simplificados</span>
-        <span class="ux-pill"><strong>Ley de Fitts</strong> CTAs amplios (48–56px)</span>
+        <!-- Segmented Button: Desktop vs Mobile Viewport Switcher -->
+        <div class="md-segmented-group" role="group" aria-label="Selector de resolución de pantalla">
+          <button type="button" class="md-segmented-btn is-active" data-viewport-mode="desktop" aria-pressed="true">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/>
+            </svg>
+            <span>Vista Escritorio</span>
+          </button>
+          <button type="button" class="md-segmented-btn" data-viewport-mode="mobile" aria-pressed="false">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/>
+            </svg>
+            <span>Vista Móvil</span>
+          </button>
+        </div>
+
+        <span class="ux-pill"><strong>Material Design 3</strong></span>
+        <span class="ux-pill"><strong>Leyes UX</strong> Jakob · Hick · Fitts</span>
       </div>
+
       <div class="ux-inspector-bar__actions">
         <button type="button" class="ux-quick-btn" id="ux-btn-test-login-error" title="Ir al Login y activar el estado de error de contraseña">
-          ⚠️ Ver Estado Error (Login)
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
+          </svg>
+          <span>Probar Error (Login)</span>
         </button>
+
         <button type="button" class="ux-quick-btn" id="ux-btn-test-empty-cart" title="Ir al Carrito y activar el diseño de estado vacío">
-          🛒 Ver Estado Vacío (Compra)
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
+          </svg>
+          <span>Probar Estado Vacío (Compra)</span>
         </button>
+
         <button type="button" class="ux-quick-btn" id="btn-theme-toggle" title="Alternar entre tema claro y oscuro de Material 3">
-          🌓 <span id="theme-toggle-label">Modo Oscuro</span>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+          </svg>
+          <span id="theme-toggle-label">Tema Oscuro</span>
         </button>
       </div>
     </div>
   </aside>
 
   <!-- ====================================================================
-       MATERIAL DESIGN 3 TOP APP BAR & SPA NAVIGATION
+       DUAL VIEWPORT STAGE & DEVICE SHELL (Adapts to Desktop & Mobile View)
        ==================================================================== -->
-  <header class="md-top-app-bar">
-    <div class="md-top-app-bar__inner">
-      <!-- Brand Identity -->
-      <button type="button" class="brand-logo" data-nav-target="home" aria-label="Ir a la pantalla principal de FerreMax Pro">
-        <div class="brand-logo__mark" aria-hidden="true">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>
+  <div class="viewport-stage">
+    <div class="device-shell">
+
+      <!-- Android Material 3 Status Bar (Displayed in Mobile View) -->
+      <div class="mobile-status-bar" aria-hidden="true">
+        <span>09:41</span>
+        <div class="mobile-status-bar__camera"></div>
+        <div class="mobile-status-bar__icons">
+          <!-- Signal Icon -->
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M2 22h20V2L2 22z"/>
+          </svg>
+          <!-- Wifi Icon -->
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round">
+            <path d="M5 12.55a11 11 0 0 1 14.08 0"/><path d="M1.42 9a16 16 0 0 1 21.16 0"/><path d="M8.53 16.11a6 6 0 0 1 6.95 0"/><line x1="12" y1="20" x2="12.01" y2="20"/>
+          </svg>
+          <!-- Battery Icon -->
+          <svg width="16" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+            <rect x="2" y="6" width="16" height="12" rx="2"/><line x1="22" y1="10" x2="22" y2="14"/><rect x="5" y="9" width="10" height="6" fill="currentColor" stroke="none"/>
           </svg>
         </div>
-        <div class="brand-logo__text">
-          <span class="brand-logo__title">FerreMax Pro</span>
-          <span class="brand-logo__subtitle">Ferretería Industrial</span>
-        </div>
-      </button>
+      </div>
 
-      <!-- 4-Screen SPA Navigation Bar (Material 3 Navigation Indicator Pills) -->
-      <nav class="md-nav-bar" aria-label="Navegación principal entre las 4 pantallas del prototipo">
-        <button type="button" class="md-nav-item is-active" data-nav-target="login">
-          <span class="md-nav-item__step">1</span>
+      <!-- Scrollable Viewport Content -->
+      <div class="device-scroll-area">
+
+        <!-- ================================================================
+             MATERIAL DESIGN 3 TOP APP BAR
+             ================================================================ -->
+        <header class="md-top-app-bar">
+          <div class="md-top-app-bar__inner">
+            <!-- Brand Identity -->
+            <button type="button" class="brand-logo" data-nav-target="home" aria-label="Ir a la pantalla principal de FerreMax Pro">
+              <div class="brand-logo__mark" aria-hidden="true">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>
+                </svg>
+              </div>
+              <div class="brand-logo__text">
+                <span class="brand-logo__title">FerreMax Pro</span>
+                <span class="brand-logo__subtitle">Ferretería Industrial</span>
+              </div>
+            </button>
+
+            <!-- 4-Screen SPA Navigation Bar (Desktop M3 Pills) -->
+            <nav class="md-nav-bar" aria-label="Navegación principal de escritorio">
+              <button type="button" class="md-nav-item is-active" data-nav-target="login">
+                <span class="md-nav-item__step">1</span>
+                <span>Login</span>
+              </button>
+              <button type="button" class="md-nav-item" data-nav-target="home">
+                <span class="md-nav-item__step">2</span>
+                <span>Principal</span>
+              </button>
+              <button type="button" class="md-nav-item" data-nav-target="catalog">
+                <span class="md-nav-item__step">3</span>
+                <span>Catálogo</span>
+              </button>
+              <button type="button" class="md-nav-item" data-nav-target="cart">
+                <span class="md-nav-item__step">4</span>
+                <span>Compra</span>
+                <span class="md-badge js-cart-count" aria-label="Artículos en el carrito">2</span>
+              </button>
+            </nav>
+
+            <!-- Right Header Actions (Jakob's Law) -->
+            <div class="header-actions">
+              <button type="button" class="md-btn md-btn--text md-btn--sm" data-nav-target="login" title="Cuenta de usuario">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
+                </svg>
+                <span id="header-user-status" class="header-user-btn-text">Iniciar sesión</span>
+              </button>
+
+              <button type="button" class="md-btn md-btn--tonal md-btn--sm" data-nav-target="cart" aria-label="Abrir resumen de compra">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
+                </svg>
+                <span>Carrito</span>
+                <span class="md-badge js-cart-count">2</span>
+              </button>
+            </div>
+          </div>
+        </header>
+
+        <!-- ================================================================
+             MAIN SPA CONTAINER (4 NAVIGABLE SCREENS)
+             ================================================================ -->
+        <main class="app-main">
+
+          <!-- ==============================================================
+               PANTALLA 1: LOGIN (CON VALIDACIÓN Y ESTADO DE ERROR M3)
+               ============================================================== -->
+          <section id="screen-login" class="spa-screen is-active" data-screen="login" aria-labelledby="login-heading">
+            <div class="login-layout">
+              <!-- Left Value Proposition Panel -->
+              <div class="login-showcase">
+                <div>
+                  <span class="login-showcase__tag">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                      <polyline points="20 6 9 17 4 12"/>
+                    </svg>
+                    <span>Abastecimiento Técnico para Construcción y Mantenimiento</span>
+                  </span>
+                  <h1 class="login-showcase__title">
+                    Todo el inventario de ferretería industrial en un solo pedido.
+                  </h1>
+                  <p class="login-showcase__desc">
+                    Accede a precios mayoristas en dólares (USD), disponibilidad en tiempo real por sucursal, fichas técnicas certificadas y retiro express en bahía de carga en 60 minutos.
+                  </p>
+
+                  <div class="login-benefits">
+                    <div class="login-benefit-item">
+                      <div class="login-benefit-item__icon" aria-hidden="true">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                        </svg>
+                      </div>
+                      <div>
+                        <h2 class="md-title-medium login-benefit-item__title">Garantía Directa de Fábrica</h2>
+                        <p class="md-body-small login-benefit-item__text">
+                          Distribuidor autorizado DeWalt, Milwaukee, Bosch, Fluke, Urrea y 3M con facturación inmediata.
+                        </p>
+                      </div>
+                    </div>
+
+                    <div class="login-benefit-item">
+                      <div class="login-benefit-item__icon" aria-hidden="true">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                          <rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/>
+                        </svg>
+                      </div>
+                      <div>
+                        <h2 class="md-title-medium login-benefit-item__title">Despacho a Obra o Retiro Express 1h</h2>
+                        <p class="md-body-small login-benefit-item__text">
+                          Envío sin costo en pedidos superiores a $250.00 USD y 5% de descuento comercial automático desde $180.00 USD.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="login-showcase__footer">
+                  <span>Soporte Técnico a Contratistas: <strong>01-800-FERREMAX</strong></span>
+                  <span>Horario: Lun–Sáb 07:00 a 20:00 hrs</span>
+                </div>
+              </div>
+
+              <!-- Right M3 Login Card with Validation & Error State -->
+              <div class="login-card" id="login-card-container">
+                <div class="login-card__header">
+                  <div class="login-card__eyebrow">Acceso a Clientes y Contratistas</div>
+                  <h2 id="login-heading" class="md-headline-medium">
+                    Iniciar sesión en tu cuenta
+                  </h2>
+                  <p class="md-body-medium login-card__subtitle">
+                    Ingresa tus credenciales para gestionar cotizaciones, pedidos frecuentes y compras.
+                  </p>
+                </div>
+
+                <!-- M3 Error Banner -->
+                <div id="login-error-banner" class="md-alert-banner md-alert-banner--error" role="alert" style="display:none;">
+                  <div class="md-alert-banner__icon" aria-hidden="true">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+                      <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
+                    </svg>
+                  </div>
+                  <div>
+                    <div class="md-label-large">No se pudo iniciar sesión</div>
+                    <p id="login-error-banner-text" class="md-body-small" style="color:var(--md-sys-color-on-error-container);">
+                      La contraseña ingresada es incorrecta. Verifica tus credenciales o utiliza los botones de prueba debajo.
+                    </p>
+                  </div>
+                </div>
+
+                <form id="login-form" novalidate>
+                  <!-- Email Field -->
+                  <div class="md-field" id="field-login-email">
+                    <label class="md-field__label" for="login-email">
+                      <span>Correo electrónico corporativo</span>
+                    </label>
+                    <div class="md-field__control">
+                      <span class="md-field__icon" aria-hidden="true">
+                        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                          <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/>
+                        </svg>
+                      </span>
+                      <input
+                        type="email"
+                        id="login-email"
+                        class="md-field__input"
+                        value="inge.martinez@constructora.com"
+                        placeholder="ejemplo@empresa.com"
+                        autocomplete="email"
+                        required
+                      />
+                      <span class="md-field__error-badge" aria-hidden="true">
+                        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                          <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
+                        </svg>
+                      </span>
+                    </div>
+                    <div class="md-field__helper" id="helper-login-email">
+                      Correo registrado en tu cuenta empresarial o personal
+                    </div>
+                  </div>
+
+                  <!-- Password Field -->
+                  <div class="md-field" id="field-login-password">
+                    <label class="md-field__label" for="login-password">
+                      <span>Contraseña</span>
+                    </label>
+                    <div class="md-field__control">
+                      <span class="md-field__icon" aria-hidden="true">
+                        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                          <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+                        </svg>
+                      </span>
+                      <input
+                        type="password"
+                        id="login-password"
+                        class="md-field__input"
+                        value="FerrePro2026"
+                        placeholder="Ingresa tu contraseña"
+                        autocomplete="current-password"
+                        required
+                      />
+                      <span class="md-field__error-badge" aria-hidden="true">
+                        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                          <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
+                        </svg>
+                      </span>
+                      <button type="button" class="md-icon-btn" id="toggle-password-btn" aria-label="Mostrar contraseña" title="Mostrar u ocultar contraseña">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                          <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>
+                        </svg>
+                      </button>
+                    </div>
+                    <div class="md-field__helper" id="helper-login-password">
+                      Mínimo 8 caracteres. Clave demo: FerrePro2026
+                    </div>
+                  </div>
+
+                  <div class="login-form__options">
+                    <label class="md-checkbox-label">
+                      <input type="checkbox" checked />
+                      <span>Mantener sesión activa en este equipo</span>
+                    </label>
+                    <button type="button" class="md-btn md-btn--text md-btn--sm" id="btn-fill-valid-login">
+                      Restaurar clave
+                    </button>
+                  </div>
+
+                  <!-- Primary CTA (Fitts's Law) -->
+                  <button type="submit" class="md-btn md-btn--filled md-btn--cta-xl md-btn--full">
+                    <span>Iniciar Sesión y Entrar a la Tienda</span>
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+                      <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
+                    </svg>
+                  </button>
+                </form>
+
+                <!-- Interactive Validation Inspector Box -->
+                <div class="login-demo-panel" aria-label="Panel interactivo de prueba de validación">
+                  <div class="login-demo-panel__title">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                      <circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/>
+                    </svg>
+                    <span>Simulador de Estados de Validación (Material Design 3)</span>
+                  </div>
+                  <div class="login-demo-panel__creds">
+                    Usuario: <strong>inge.martinez@constructora.com</strong> | Clave: <strong>FerrePro2026</strong>
+                  </div>
+                  <div class="login-demo-panel__buttons">
+                    <button type="button" class="md-btn md-btn--error-outlined md-btn--sm" id="btn-simulate-login-error">
+                      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
+                      </svg>
+                      <span>Simular Contraseña Incorrecta</span>
+                    </button>
+                    <button type="button" class="md-btn md-btn--tonal md-btn--sm" data-nav-target="home">
+                      <span>Continuar como Invitado</span>
+                      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- ==============================================================
+               PANTALLA 2: PRINCIPAL (RECONOCIMIENTO SOBRE RECUERDO)
+               ============================================================== -->
+          <section id="screen-home" class="spa-screen" data-screen="home" aria-labelledby="home-heading">
+            <div class="home-hero">
+              <div>
+                <span class="home-hero__badge">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+                    <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+                  </svg>
+                  <span>Sucursal Industrial Norte · Stock en tiempo real</span>
+                </span>
+                <h1 id="home-heading" class="home-hero__title">
+                  Encuentra herramientas e insumos sin memorizar códigos ni SKUs.
+                </h1>
+                <p class="home-hero__subtitle">
+                  Explora nuestras categorías visuales con ejemplos claros, retoma tus productos vistos recientemente o busca por aplicación, medida o marca.
+                </p>
+
+                <!-- Search Bar -->
+                <form id="home-search-form" class="md-search-bar" role="search">
+                  <span class="md-search-bar__icon" aria-hidden="true">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                      <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+                    </svg>
+                  </span>
+                  <input
+                    type="search"
+                    id="home-search-input"
+                    class="md-search-bar__input"
+                    placeholder="Buscar por herramienta, medida o marca (ej. Taladro 20V, Cable 12 AWG)..."
+                    aria-label="Buscar herramientas en el catálogo"
+                  />
+                  <button type="submit" class="md-btn md-btn--filled">
+                    Buscar ahora
+                  </button>
+                </form>
+
+                <!-- Recognition Pills -->
+                <div class="home-recognition-tags" aria-label="Búsquedas sugeridas para reconocimiento rápido">
+                  <span class="home-recognition-tags__label">Búsquedas frecuentes:</span>
+                  <button type="button" class="md-chip" data-recognition-search="Taladro">Taladro 20V</button>
+                  <button type="button" class="md-chip" data-recognition-search="12 AWG">Cable 12 AWG</button>
+                  <button type="button" class="md-chip" data-recognition-search="Fluke">Multímetro Fluke</button>
+                  <button type="button" class="md-chip" data-recognition-search="Taquetes">Taquetes 5/16"</button>
+                  <button type="button" class="md-chip" data-recognition-search="Urrea">Llaves Urrea</button>
+                </div>
+              </div>
+
+              <!-- Right Hero Featured Tool Offer -->
+              <div class="home-hero__promo">
+                <div class="home-hero__promo-top">
+                  <span class="product-badge-brand">OFERTA CONTRATISTA</span>
+                  <span class="product-badge-stock">Ahorra $19.00 USD</span>
+                </div>
+                <h2 class="md-title-large">Taladro Percutor 1/2" DeWalt 20V MAX Brushless</h2>
+                <p class="md-body-small">
+                  Incluye 2 baterías de litio 2.0Ah, cargador rápido y maletín rígido. SKU: DEW-DCD7781.
+                </p>
+                <div class="home-hero__promo-pricing">
+                  <div>
+                    <span class="product-price">$149.00</span>
+                    <span class="product-price__unit">USD</span>
+                    <span class="product-price__old">$168.00</span>
+                  </div>
+                  <span class="md-label-medium" style="color:var(--md-sys-color-success);">18 kits en almacén</span>
+                </div>
+                <div class="home-hero__promo-actions">
+                  <button type="button" class="md-btn md-btn--filled" data-action="add-to-cart" data-product-id="DEW-DCD7781">
+                    Agregar al Carrito
+                  </button>
+                  <button type="button" class="md-btn md-btn--outlined" data-nav-target="catalog">
+                    Catálogo
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- SECTION 1: ACCESOS DIRECTOS POR PROYECTO -->
+            <div class="section-header">
+              <div>
+                <div class="section-header__eyebrow">ACCESOS DIRECTOS INTELIGENTES</div>
+                <h2 class="md-headline-small">Soluciones rápidas por tarea y recompra</h2>
+              </div>
+              <button type="button" class="md-btn md-btn--tonal md-btn--sm" data-nav-target="catalog">
+                <span>Ver los 16 artículos del catálogo</span>
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+                  <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
+                </svg>
+              </button>
+            </div>
+            <div id="home-shortcuts-grid" class="shortcuts-grid"></div>
+
+            <!-- SECTION 2: CATEGORÍAS PRINCIPALES CON EJEMPLOS VISUALES -->
+            <div class="section-header">
+              <div>
+                <div class="section-header__eyebrow">RECONOCIMIENTO SOBRE RECUERDO · LEY DE HICK</div>
+                <h2 class="md-headline-small">Categorías Principales de la Ferretería</h2>
+                <p class="md-body-medium section-header__desc">
+                  Cada categoría muestra ejemplos reales de los artículos que contiene para facilitar tu elección sin adivinar.
+                </p>
+              </div>
+            </div>
+            <div id="home-categories-grid" class="categories-grid"></div>
+
+            <!-- SECTION 3: VISTOS RECIENTEMENTE Y MÁS PEDIDOS EN OBRA -->
+            <div class="section-header">
+              <div>
+                <div class="section-header__eyebrow">MEMORIA VISUAL ACTIVA</div>
+                <h2 class="md-headline-small">Vistos Recientemente y Esenciales de Obra</h2>
+                <p class="md-body-medium section-header__desc">
+                  Retoma rápidamente las herramientas que consultaste en tu sesión sin volver a buscarlas.
+                </p>
+              </div>
+              <button type="button" class="md-btn md-btn--filled" data-nav-target="catalog">
+                Explorar Catálogo Completo
+              </button>
+            </div>
+            <div id="home-recognition-products" class="products-grid"></div>
+          </section>
+
+          <!-- ==============================================================
+               PANTALLA 3: CATÁLOGO (LISTADO DE ARTÍCULOS)
+               ============================================================== -->
+          <section id="screen-catalog" class="spa-screen" data-screen="catalog" aria-labelledby="catalog-heading">
+            <div class="section-header">
+              <div>
+                <div class="section-header__eyebrow">INVENTARIO CERTIFICADO EN DÓLARES (USD)</div>
+                <h1 id="catalog-heading" class="md-headline-medium">Catálogo General de Herramientas e Insumos</h1>
+              </div>
+              <div class="catalog-header-actions">
+                <span id="catalog-results-count" class="md-body-medium section-header__desc">
+                  Mostrando 16 de 16 artículos
+                </span>
+                <button type="button" class="md-btn md-btn--filled" data-nav-target="cart">
+                  <span>Ir a Pagar</span>
+                  <span class="md-badge md-badge--inverse js-cart-count">2</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Catalog Filter & Search Toolbar (Hick's Law) -->
+            <div class="catalog-toolbar">
+              <div class="catalog-toolbar__top">
+                <div class="catalog-search-box">
+                  <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+                  </svg>
+                  <input
+                    type="search"
+                    id="catalog-search-input"
+                    placeholder="Filtrar por nombre, SKU, marca o especificación (ej. Brushless, 12 AWG, Bronce)..."
+                    aria-label="Filtrar artículos del catálogo"
+                  />
+                </div>
+
+                <label for="catalog-sort-select" class="sr-only">Ordenar artículos por</label>
+                <select id="catalog-sort-select" class="catalog-sort-select" aria-label="Ordenar artículos por">
+                  <option value="featured">Ordenar: Destacados en Obra</option>
+                  <option value="price-asc">Precio: Menor a Mayor (USD)</option>
+                  <option value="price-desc">Precio: Mayor a Menor (USD)</option>
+                  <option value="name-asc">Nombre: A - Z</option>
+                </select>
+
+                <button type="button" class="md-btn md-btn--outlined md-btn--sm" data-action="reset-catalog-filters">
+                  Limpiar filtros
+                </button>
+              </div>
+
+              <!-- M3 Filter Chips -->
+              <div id="catalog-category-chips" class="md-chip-group" role="group" aria-label="Filtrar por categoría de ferretería"></div>
+            </div>
+
+            <!-- Product Grid -->
+            <div id="catalog-products-grid" class="products-grid"></div>
+          </section>
+
+          <!-- ==============================================================
+               PANTALLA 4: COMPRA (CARRITO / CHECKOUT + ESTADO VACÍO)
+               ============================================================== -->
+          <section id="screen-cart" class="spa-screen" data-screen="cart" aria-labelledby="cart-heading">
+            <div class="cart-screen-header">
+              <div>
+                <div class="section-header__eyebrow">PASO FINAL DE COMPRA · LEY DE FITTS & HICK</div>
+                <h1 id="cart-heading" class="md-headline-medium">Resumen de Pedido y Checkout</h1>
+              </div>
+              <div class="cart-screen-header__actions">
+                <button type="button" class="md-btn md-btn--outlined md-btn--sm" data-nav-target="catalog">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/>
+                  </svg>
+                  <span>Agregar más herramientas</span>
+                </button>
+                <button type="button" class="md-btn md-btn--tonal md-btn--sm" id="btn-toggle-cart-state" data-cart-demo-mode="clear">
+                  <span>Vaciar carrito (Ver Estado Vacío)</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- ============================================================
+                 DISEÑO ALTERNATIVO: ESTADO VACÍO (CUANDO NO HAY PRODUCTOS)
+                 ============================================================ -->
+            <div id="cart-empty-state" class="cart-empty-card" style="display:none;">
+              <div class="cart-empty-card__illustration" aria-hidden="true">
+                <svg width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/>
+                  <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
+                  <line x1="12" y1="9" x2="12" y2="13"/>
+                  <line x1="10" y1="11" x2="14" y2="11"/>
+                </svg>
+              </div>
+
+              <span class="ux-pill">ESTADO ALTERNATIVO · CARRITO SIN ARTÍCULOS</span>
+              <h2 class="md-headline-small" style="margin-top:10px;">
+                Tu caja de herramientas de compra está vacía
+              </h2>
+              <p class="md-body-large cart-empty-card__desc">
+                Aún no has seleccionado herramientas ni materiales para tu pedido. Explora el catálogo o carga un kit preconfigurado de obra con un solo clic.
+              </p>
+
+              <!-- Primary & Secondary Actions (Fitts's Law) -->
+              <div class="cart-empty-card__cta-group">
+                <button type="button" class="md-btn md-btn--filled md-btn--cta-xl" data-nav-target="catalog">
+                  <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/>
+                  </svg>
+                  <span>Explorar Catálogo de Herramientas</span>
+                </button>
+
+                <button type="button" class="md-btn md-btn--tonal md-btn--cta-xl" id="btn-empty-load-kit">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                    <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+                  </svg>
+                  <span>Cargar Kit Demo de Obra (3 artículos)</span>
+                </button>
+              </div>
+
+              <!-- Recognition Suggestions inside Empty State -->
+              <div class="cart-empty-card__suggestions">
+                <div class="md-label-small" style="color:var(--md-sys-color-on-surface-variant); margin-bottom:12px;">
+                  Acceso Rápido a Departamentos Más Solicitados
+                </div>
+                <div class="md-chip-group" style="justify-content:center;">
+                  <button type="button" class="md-chip" data-action="select-category" data-category-id="electricas">
+                    Herramientas Eléctricas
+                  </button>
+                  <button type="button" class="md-chip" data-action="select-category" data-category-id="manuales">
+                    Herramientas Manuales
+                  </button>
+                  <button type="button" class="md-chip" data-action="select-category" data-category-id="electrico">
+                    Material Eléctrico
+                  </button>
+                  <button type="button" class="md-chip" data-action="select-category" data-category-id="fijaciones">
+                    Fijaciones y Taquetes
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- ============================================================
+                 DISEÑO CON PRODUCTOS: CARRITO Y CHECKOUT SIMPLIFICADO
+                 ============================================================ -->
+            <div id="cart-filled-state" class="cart-layout">
+              <div>
+                <div class="checkout-section-card">
+                  <div class="checkout-section-card__header">
+                    <h2 class="md-title-large">1. Artículos Seleccionados</h2>
+                    <span class="md-body-small">Precios unitarios en USD</span>
+                  </div>
+                  <div id="cart-items-container" class="cart-items-list"></div>
+                </div>
+
+                <!-- Step 2: Delivery Method -->
+                <div class="checkout-section-card">
+                  <h2 class="md-title-large">2. Modalidad de Entrega y Recepción</h2>
+                  <p class="md-body-small">
+                    Elige cómo deseas recibir tus herramientas y materiales.
+                  </p>
+
+                  <div class="radio-cards-grid" role="radiogroup" aria-label="Método de entrega">
+                    <label class="md-radio-card is-selected" data-delivery-option="pickup">
+                      <input type="radio" name="deliveryMethod" value="pickup" checked />
+                      <div>
+                        <div class="md-title-small">Retiro Express en Sucursal (1 hora)</div>
+                        <p class="md-body-small">
+                          Bahía de Carga Industrial Norte · <strong>GRATIS ($0.00 USD)</strong>
+                        </p>
+                      </div>
+                    </label>
+
+                    <label class="md-radio-card" data-delivery-option="shipping">
+                      <input type="radio" name="deliveryMethod" value="shipping" />
+                      <div>
+                        <div class="md-title-small">Envío Directo a Obra / Domicilio</div>
+                        <p class="md-body-small">
+                          Entrega mismo día · <strong>$12.00 USD</strong> (Gratis en compras &gt; $250 USD)
+                        </p>
+                      </div>
+                    </label>
+                  </div>
+
+                  <div class="checkout-fields-grid">
+                    <div class="md-field md-field--compact">
+                      <label class="md-field__label" for="checkout-recipient">Responsable que recibe</label>
+                      <div class="md-field__control">
+                        <input
+                          type="text"
+                          id="checkout-recipient"
+                          class="md-field__input"
+                          value="Ing. Roberto Martínez"
+                          required
+                        />
+                      </div>
+                    </div>
+
+                    <div class="md-field md-field--compact">
+                      <label class="md-field__label" for="checkout-address">Sucursal o Dirección de Obra</label>
+                      <div class="md-field__control">
+                        <input
+                          type="text"
+                          id="checkout-address"
+                          class="md-field__input"
+                          value="Sucursal Industrial Norte — Bahía Express #3"
+                          required
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Step 3: Payment Method -->
+                <div class="checkout-section-card" style="margin-bottom:0;">
+                  <h2 class="md-title-large">3. Método de Pago Empresarial</h2>
+                  <div class="radio-cards-grid" role="radiogroup" aria-label="Método de pago">
+                    <label class="md-radio-card is-selected" data-payment-option="card">
+                      <input type="radio" name="paymentMethod" value="card" checked />
+                      <div>
+                        <div class="md-title-small">Tarjeta Corporativa Visa / Mastercard</div>
+                        <p class="md-body-small">
+                          Terminación 4829 · Cargo inmediato en USD
+                        </p>
+                      </div>
+                    </label>
+
+                    <label class="md-radio-card" data-payment-option="transfer">
+                      <input type="radio" name="paymentMethod" value="transfer" />
+                      <div>
+                        <div class="md-title-small">Crédito Comercial FerreMax / SPEI</div>
+                        <p class="md-body-small">
+                          Línea autorizada Constructora del Valle (Plazo 30 días)
+                        </p>
+                      </div>
+                    </label>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Right Column: Sticky Order Summary & High-Contrast Primary CTA -->
+              <aside class="order-summary-card" aria-label="Desglose financiero del pedido">
+                <span class="ux-pill">FACTURACIÓN AUTOMÁTICA INCLUIDA</span>
+                <h2 class="md-headline-small" style="margin-top:8px;">Resumen Financiero</h2>
+                <p class="md-body-small">
+                  Valores expresados en dólares estadounidenses (USD).
+                </p>
+
+                <div class="summary-lines">
+                  <div class="summary-line">
+                    <span>Subtotal de artículos</span>
+                    <strong id="summary-subtotal" class="font-mono">$186.60 USD</strong>
+                  </div>
+                  <div class="summary-line summary-line--discount" id="summary-discount-row">
+                    <span>Descuento Contratista (5% &gt; $180 USD)</span>
+                    <span id="summary-discount" class="font-mono">-$9.33 USD</span>
+                  </div>
+                  <div class="summary-line">
+                    <span>Logística / Entrega</span>
+                    <span id="summary-shipping" class="font-mono">GRATIS ($0.00 USD)</span>
+                  </div>
+                  <div class="summary-line">
+                    <span>Impuestos (IVA 16%)</span>
+                    <span id="summary-tax" class="font-mono">$28.36 USD</span>
+                  </div>
+                </div>
+
+                <div class="summary-total">
+                  <div>
+                    <div class="md-title-medium">Total a Pagar</div>
+                    <div class="md-body-small">Neto en dólares</div>
+                  </div>
+                  <div id="summary-total" class="summary-total__amount font-mono">$205.63 USD</div>
+                </div>
+
+                <form id="checkout-form">
+                  <!-- Primary CTA (Fitts's Law) -->
+                  <button type="submit" class="md-btn md-btn--filled md-btn--cta-xl md-btn--full">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/>
+                    </svg>
+                    <span id="checkout-primary-cta-text">Confirmar y Pagar Pedido</span>
+                  </button>
+                </form>
+
+                <div class="summary-trust-note">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+                  </svg>
+                  <span>Transacción encriptada TLS 1.3 · Garantía de satisfacción FerreMax</span>
+                </div>
+              </aside>
+            </div>
+          </section>
+
+        </main>
+
+        <!-- ================================================================
+             FOOTER (Desktop View)
+             ================================================================ -->
+        <footer class="app-footer">
+          <div class="app-footer__inner">
+            <div>
+              <strong>FerreMax Pro S.A. de C.V.</strong> — Prototipo SPA Material Design 3 (HTML5 + CSS Nativo + JS ES6)
+            </div>
+            <div>
+              Leyes de UX aplicadas: <strong>Ley de Jakob</strong> · <strong>Ley de Hick</strong> · <strong>Ley de Fitts</strong> · <strong>Reconocimiento sobre Recuerdo</strong>
+            </div>
+          </div>
+        </footer>
+
+      </div>
+
+      <!-- ==================================================================
+           MATERIAL DESIGN 3 MOBILE BOTTOM NAVIGATION BAR (4 Destinations)
+           ================================================================== -->
+      <nav class="mobile-bottom-nav" aria-label="Navegación inferior para vista móvil">
+        <button type="button" class="m3-bottom-nav-item is-active" data-nav-target="login">
+          <span class="m3-bottom-nav-item__pill">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
+            </svg>
+          </span>
           <span>Login</span>
         </button>
-        <button type="button" class="md-nav-item" data-nav-target="home">
-          <span class="md-nav-item__step">2</span>
+
+        <button type="button" class="m3-bottom-nav-item" data-nav-target="home">
+          <span class="m3-bottom-nav-item__pill">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/>
+            </svg>
+          </span>
           <span>Principal</span>
         </button>
-        <button type="button" class="md-nav-item" data-nav-target="catalog">
-          <span class="md-nav-item__step">3</span>
+
+        <button type="button" class="m3-bottom-nav-item" data-nav-target="catalog">
+          <span class="m3-bottom-nav-item__pill">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/>
+            </svg>
+          </span>
           <span>Catálogo</span>
         </button>
-        <button type="button" class="md-nav-item" data-nav-target="cart">
-          <span class="md-nav-item__step">4</span>
+
+        <button type="button" class="m3-bottom-nav-item" data-nav-target="cart">
+          <span class="m3-bottom-nav-item__pill">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
+            </svg>
+            <span class="m3-bottom-nav-item__badge js-cart-count">2</span>
+          </span>
           <span>Compra</span>
-          <span class="md-badge js-cart-count" aria-label="Artículos en el carrito">2</span>
         </button>
       </nav>
 
-      <!-- Right Header Actions (Jakob's Law: Familiar Account & Cart Placement) -->
-      <div class="header-actions">
-        <button type="button" class="md-btn md-btn--text md-btn--sm" data-nav-target="login" title="Estado de cuenta">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
-            <circle cx="12" cy="7" r="4"/>
-          </svg>
-          <span id="header-user-status">Iniciar sesión</span>
-        </button>
-
-        <button type="button" class="md-btn md-btn--tonal md-btn--sm" data-nav-target="cart" aria-label="Abrir resumen de compra">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
-            <circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/>
-            <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
-          </svg>
-          <span>Carrito</span>
-          <span class="md-badge js-cart-count">2</span>
-        </button>
+      <!-- Android Gesture Bar (Visible in Mobile Viewport Mode) -->
+      <div class="mobile-gesture-bar" aria-hidden="true">
+        <div class="mobile-gesture-bar__pill"></div>
       </div>
+
     </div>
-  </header>
-
-  <!-- ====================================================================
-       MAIN SPA CONTAINER (4 NAVIGABLE SCREENS)
-       ==================================================================== -->
-  <main class="app-main">
-
-    <!-- ==================================================================
-         PANTALLA 1: LOGIN (CON DISEÑO DE VALIDACIÓN Y ESTADO DE ERROR)
-         ================================================================== -->
-    <section id="screen-login" class="spa-screen is-active" data-screen="login" aria-labelledby="login-heading">
-      <div class="login-layout">
-        <!-- Left Value Proposition Panel -->
-        <div class="login-showcase">
-          <div>
-            <span class="login-showcase__tag">
-              ✓ Abastecimiento Técnico para Construcción y Mantenimiento
-            </span>
-            <h1 class="login-showcase__title">
-              Todo el inventario de ferretería industrial en un solo pedido.
-            </h1>
-            <p class="login-showcase__desc">
-              Accede a precios mayoristas en dólares (USD), disponibilidad en tiempo real por sucursal, fichas técnicas certificadas y retiro express en bahía de carga en 60 minutos.
-            </p>
-
-            <div class="login-benefits">
-              <div class="login-benefit-item">
-                <div class="login-benefit-item__icon" aria-hidden="true">
-                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
-                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
-                  </svg>
-                </div>
-                <div>
-                  <h2 class="md-title-medium" style="color:#FFFFFF;">Garantía Directa de Fábrica</h2>
-                  <p class="md-body-small" style="color:rgba(255,248,246,0.78);">
-                    Distribuidor autorizado DeWalt, Milwaukee, Bosch, Fluke, Urrea y 3M con facturación inmediata.
-                  </p>
-                </div>
-              </div>
-
-              <div class="login-benefit-item">
-                <div class="login-benefit-item__icon" aria-hidden="true">
-                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
-                    <rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/>
-                    <circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/>
-                  </svg>
-                </div>
-                <div>
-                  <h2 class="md-title-medium" style="color:#FFFFFF;">Despacho a Obra o Retiro Express 1h</h2>
-                  <p class="md-body-small" style="color:rgba(255,248,246,0.78);">
-                    Envío sin costo en pedidos superiores a $250.00 USD y 5% de descuento comercial automático desde $180.00 USD.
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div style="padding-top:24px; border-top:1px solid rgba(255,255,255,0.16); display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; font-size:0.82rem; color:rgba(255,248,246,0.8);">
-            <span>Soporte Técnico a Contratistas: <strong>01-800-FERREMAX</strong></span>
-            <span>Horario: Lun–Sáb 07:00 a 20:00 hrs</span>
-          </div>
-        </div>
-
-        <!-- Right M3 Login Card with Validation & Error State -->
-        <div class="login-card" id="login-card-container">
-          <div class="login-card__header">
-            <div class="login-card__eyebrow">Acceso a Clientes y Contratistas</div>
-            <h2 id="login-heading" class="md-headline-medium" style="margin-bottom:6px;">
-              Iniciar sesión en tu cuenta
-            </h2>
-            <p class="md-body-medium" style="color:var(--md-sys-color-on-surface-variant);">
-              Ingresa tus credenciales para gestionar cotizaciones, pedidos frecuentes y compras.
-            </p>
-          </div>
-
-          <!-- M3 Error Banner (Displayed when credentials fail validation) -->
-          <div id="login-error-banner" class="md-alert-banner md-alert-banner--error" role="alert" style="display:none;">
-            <div class="md-alert-banner__icon" aria-hidden="true">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3">
-                <circle cx="12" cy="12" r="10"/>
-                <line x1="12" y1="8" x2="12" y2="12"/>
-                <line x1="12" y1="16" x2="12.01" y2="16"/>
-              </svg>
-            </div>
-            <div>
-              <div class="md-label-large" style="margin-bottom:2px;">No se pudo iniciar sesión</div>
-              <p id="login-error-banner-text" class="md-body-small" style="color:var(--md-sys-color-on-error-container);">
-                La contraseña ingresada es incorrecta. Verifica tus credenciales o utiliza los botones de prueba debajo.
-              </p>
-            </div>
-          </div>
-
-          <form id="login-form" novalidate>
-            <!-- Email Field (M3 Outlined Text Field) -->
-            <div class="md-field" id="field-login-email">
-              <label class="md-field__label" for="login-email">
-                <span>Correo electrónico corporativo</span>
-              </label>
-              <div class="md-field__control">
-                <span class="md-field__icon" aria-hidden="true">
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
-                    <polyline points="22,6 12,13 2,6"/>
-                  </svg>
-                </span>
-                <input
-                  type="email"
-                  id="login-email"
-                  class="md-field__input"
-                  value="inge.martinez@constructora.com"
-                  placeholder="ejemplo@empresa.com"
-                  autocomplete="email"
-                  required
-                />
-                <span class="md-field__error-badge" aria-hidden="true">
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
-                    <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
-                  </svg>
-                </span>
-              </div>
-              <div class="md-field__helper" id="helper-login-email">
-                Correo registrado en tu cuenta empresarial o personal
-              </div>
-            </div>
-
-            <!-- Password Field (M3 Outlined Text Field with Error State support) -->
-            <div class="md-field" id="field-login-password">
-              <label class="md-field__label" for="login-password">
-                <span>Contraseña</span>
-              </label>
-              <div class="md-field__control">
-                <span class="md-field__icon" aria-hidden="true">
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
-                    <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
-                  </svg>
-                </span>
-                <input
-                  type="password"
-                  id="login-password"
-                  class="md-field__input"
-                  value="FerrePro2026"
-                  placeholder="Ingresa tu contraseña"
-                  autocomplete="current-password"
-                  required
-                />
-                <span class="md-field__error-badge" aria-hidden="true">
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
-                    <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
-                  </svg>
-                </span>
-                <button type="button" class="md-icon-btn" id="toggle-password-btn" aria-label="Mostrar contraseña" title="Mostrar u ocultar contraseña">
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>
-                  </svg>
-                </button>
-              </div>
-              <div class="md-field__helper" id="helper-login-password">
-                Mínimo 8 caracteres. Clave demo: FerrePro2026
-              </div>
-            </div>
-
-            <div class="login-form__options">
-              <label class="md-checkbox-label">
-                <input type="checkbox" checked />
-                <span>Mantener sesión activa en este equipo</span>
-              </label>
-              <button type="button" class="md-btn md-btn--text md-btn--sm" id="btn-fill-valid-login">
-                Restaurar clave
-              </button>
-            </div>
-
-            <!-- Primary CTA (Fitts's Law: Full width, 56px height, High Visual Contrast) -->
-            <button type="submit" class="md-btn md-btn--filled md-btn--cta-xl md-btn--full">
-              <span>Iniciar Sesión y Entrar a la Tienda</span>
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4">
-                <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
-              </svg>
-            </button>
-          </form>
-
-          <!-- Interactive Validation Inspector Box (To easily test Error vs Valid State) -->
-          <div class="login-demo-panel" aria-label="Panel interactivo de prueba de validación">
-            <div class="login-demo-panel__title">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
-                <circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/>
-              </svg>
-              <span> Simulador de Estados de Validación (Material Design 3)</span>
-            </div>
-            <div class="login-demo-panel__creds">
-              Usuario: <strong>inge.martinez@constructora.com</strong> | Clave válida: <strong>FerrePro2026</strong>
-            </div>
-            <div class="login-demo-panel__buttons">
-              <button type="button" class="md-btn md-btn--error-outlined md-btn--sm" id="btn-simulate-login-error">
-                ⚠️ Simular Contraseña Incorrecta
-              </button>
-              <button type="button" class="md-btn md-btn--tonal md-btn--sm" data-nav-target="home">
-                Continuar como Invitado →
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ==================================================================
-         PANTALLA 2: PRINCIPAL (RECONOCIMIENTO SOBRE RECUERDO)
-         ================================================================== -->
-    <section id="screen-home" class="spa-screen" data-screen="home" aria-labelledby="home-heading">
-      <!-- Hero Banner with Search & Recognition Tags -->
-      <div class="home-hero">
-        <div>
-          <span class="home-hero__badge">
-            ⚡ Sucursal Industrial Norte · Stock actualizado al instante
-          </span>
-          <h1 id="home-heading" class="home-hero__title">
-            Encuentra herramientas e insumos sin memorizar códigos ni SKUs.
-          </h1>
-          <p class="home-hero__subtitle">
-            Explora nuestras categorías visuales con ejemplos claros, retoma tus productos vistos recientemente o busca por aplicación, medida o marca.
-          </p>
-
-          <!-- Search Bar (Jakob's Law + Recognition Suggestions) -->
-          <form id="home-search-form" class="md-search-bar" role="search">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" style="color:var(--md-sys-color-on-surface-variant);">
-              <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
-            </svg>
-            <input
-              type="search"
-              id="home-search-input"
-              class="md-search-bar__input"
-              placeholder="Buscar por herramienta, medida o marca (ej. Taladro 20V, Cable 12 AWG, Fluke)..."
-              aria-label="Buscar herramientas en el catálogo"
-            />
-            <button type="submit" class="md-btn md-btn--filled">
-              Buscar ahora
-            </button>
-          </form>
-
-          <!-- Recognition Pills (Reconocimiento sobre Recuerdo) -->
-          <div class="home-recognition-tags" aria-label="Búsquedas sugeridas para reconocimiento rápido">
-            <span class="home-recognition-tags__label">Búsquedas frecuentes:</span>
-            <button type="button" class="md-chip" data-recognition-search="Taladro">Taladro 20V</button>
-            <button type="button" class="md-chip" data-recognition-search="12 AWG">Cable 12 AWG</button>
-            <button type="button" class="md-chip" data-recognition-search="Fluke">Multímetro Fluke</button>
-            <button type="button" class="md-chip" data-recognition-search="Taquetes">Taquetes 5/16"</button>
-            <button type="button" class="md-chip" data-recognition-search="Urrea">Llaves Urrea</button>
-          </div>
-        </div>
-
-        <!-- Right Hero Featured Tool Offer (Clear Primary CTA) -->
-        <div class="home-hero__promo">
-          <div style="display:flex; justify-content:space-between; align-items:center;">
-            <span class="product-badge-brand">OFERTA CONTRATISTA</span>
-            <span class="product-badge-stock">Ahorra $19.00 USD</span>
-          </div>
-          <h2 class="md-title-large">Taladro Percutor 1/2" DeWalt 20V MAX Brushless</h2>
-          <p class="md-body-small">
-            Incluye 2 baterías de litio 2.0Ah, cargador rápido y maletín rígido. SKU: DEW-DCD7781.
-          </p>
-          <div style="display:flex; align-items:baseline; justify-content:space-between; margin:4px 0;">
-            <div>
-              <span class="product-price">$149.00</span>
-              <span class="product-price__unit">USD</span>
-              <span class="product-price__old">$168.00</span>
-            </div>
-            <span class="md-label-medium" style="color:var(--md-sys-color-success);">18 kits en almacén</span>
-          </div>
-          <div style="display:grid; grid-template-columns:1fr auto; gap:8px;">
-            <button type="button" class="md-btn md-btn--filled" data-action="add-to-cart" data-product-id="DEW-DCD7781">
-              Agregar al Carrito
-            </button>
-            <button type="button" class="md-btn md-btn--outlined" data-nav-target="catalog">
-              Ver Catálogo
-            </button>
-          </div>
-        </div>
-      </div>
-
-      <!-- SECTION 1: ACCESOS DIRECTOS POR PROYECTO (RECONOCIMIENTO SOBRE RECUERDO) -->
-      <div class="section-header">
-        <div>
-          <div class="section-header__eyebrow">ACCESOS DIRECTOS INTELIGENTES</div>
-          <h2 class="md-headline-small">Soluciones rápidas por tarea y recompra</h2>
-        </div>
-        <button type="button" class="md-btn md-btn--tonal md-btn--sm" data-nav-target="catalog">
-          Ver los 16 artículos del catálogo →
-        </button>
-      </div>
-      <div id="home-shortcuts-grid" class="shortcuts-grid">
-        <!-- Populated dynamically by js/app.js -->
-      </div>
-
-      <!-- SECTION 2: CATEGORÍAS PRINCIPALES CON EJEMPLOS VISUALES -->
-      <div class="section-header">
-        <div>
-          <div class="section-header__eyebrow">RECONOCIMIENTO SOBRE RECUERDO · LEY DE HICK</div>
-          <h2 class="md-headline-small">Categorías Principales de la Ferretería</h2>
-          <p class="md-body-medium" style="color:var(--md-sys-color-on-surface-variant);">
-            Cada categoría muestra ejemplos reales de los artículos que contiene para facilitar tu elección sin adivinar.
-          </p>
-        </div>
-      </div>
-      <div id="home-categories-grid" class="categories-grid">
-        <!-- Populated dynamically by js/app.js -->
-      </div>
-
-      <!-- SECTION 3: VISTOS RECIENTEMENTE Y MÁS PEDIDOS EN OBRA -->
-      <div class="section-header">
-        <div>
-          <div class="section-header__eyebrow">MEMORIA VISUAL ACTIVA</div>
-          <h2 class="md-headline-small">Vistos Recientemente y Esenciales de Obra</h2>
-          <p class="md-body-medium" style="color:var(--md-sys-color-on-surface-variant);">
-            Retoma rápidamente las herramientas que consultaste en tu sesión sin volver a buscarlas.
-          </p>
-        </div>
-        <button type="button" class="md-btn md-btn--filled" data-nav-target="catalog">
-          Explorar Catálogo Completo
-        </button>
-      </div>
-      <div id="home-recognition-products" class="products-grid">
-        <!-- Populated dynamically by js/app.js -->
-      </div>
-    </section>
-
-    <!-- ==================================================================
-         PANTALLA 3: CATÁLOGO (LISTADO DE ARTÍCULOS)
-         ================================================================== -->
-    <section id="screen-catalog" class="spa-screen" data-screen="catalog" aria-labelledby="catalog-heading">
-      <div class="section-header" style="margin-bottom: var(--space-4);">
-        <div>
-          <div class="section-header__eyebrow">INVENTARIO CERTIFICADO EN DÓLARES (USD)</div>
-          <h1 id="catalog-heading" class="md-headline-medium">Catálogo General de Herramientas e Insumos</h1>
-        </div>
-        <div style="display:flex; align-items:center; gap:12px;">
-          <span id="catalog-results-count" class="md-body-medium" style="color:var(--md-sys-color-on-surface-variant);">
-            Mostrando 16 productos disponibles
-          </span>
-          <button type="button" class="md-btn md-btn--filled" data-nav-target="cart">
-            <span>Ir a Pagar</span>
-            <span class="md-badge js-cart-count" style="background:var(--md-sys-color-on-primary); color:var(--md-sys-color-primary);">2</span>
-          </button>
-        </div>
-      </div>
-
-      <!-- Catalog Filter & Search Toolbar (Hick's Law: Clean, Non-Overwhelming Controls) -->
-      <div class="catalog-toolbar">
-        <div class="catalog-toolbar__top">
-          <div class="catalog-search-box">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
-            </svg>
-            <input
-              type="search"
-              id="catalog-search-input"
-              placeholder="Filtrar por nombre, SKU, marca o especificación (ej. Brushless, 12 AWG, Bronce)..."
-              aria-label="Filtrar artículos del catálogo"
-            />
-          </div>
-
-          <label for="catalog-sort-select" class="sr-only">Ordenar artículos por</label>
-          <select id="catalog-sort-select" class="catalog-sort-select" aria-label="Ordenar artículos por">
-            <option value="featured">Ordenar: Destacados en Obra</option>
-            <option value="price-asc">Precio: Menor a Mayor (USD)</option>
-            <option value="price-desc">Precio: Mayor a Menor (USD)</option>
-            <option value="name-asc">Nombre: A - Z</option>
-          </select>
-
-          <button type="button" class="md-btn md-btn--outlined md-btn--sm" data-action="reset-catalog-filters">
-            Limpiar filtros
-          </button>
-        </div>
-
-        <!-- M3 Filter Chips -->
-        <div id="catalog-category-chips" class="md-chip-group" role="group" aria-label="Filtrar por categoría de ferretería">
-          <!-- Populated dynamically by js/app.js -->
-        </div>
-      </div>
-
-      <!-- Product Grid -->
-      <div id="catalog-products-grid" class="products-grid">
-        <!-- Populated dynamically by js/app.js -->
-      </div>
-    </section>
-
-    <!-- ==================================================================
-         PANTALLA 4: COMPRA (CARRITO / CHECKOUT + ESTADO VACÍO ALTERNATIVO)
-         ================================================================== -->
-    <section id="screen-cart" class="spa-screen" data-screen="cart" aria-labelledby="cart-heading">
-      <div class="cart-screen-header">
-        <div>
-          <div class="section-header__eyebrow">PASO FINAL DE COMPRA · LEY DE FITTS & HICK</div>
-          <h1 id="cart-heading" class="md-headline-medium">Resumen de Pedido y Checkout</h1>
-        </div>
-        <div style="display:flex; flex-wrap:wrap; align-items:center; gap:10px;">
-          <button type="button" class="md-btn md-btn--outlined md-btn--sm" data-nav-target="catalog">
-            ← Agregar más herramientas
-          </button>
-          <button type="button" class="md-btn md-btn--tonal md-btn--sm" id="btn-toggle-cart-state" data-cart-demo-mode="clear">
-            🗑️ Vaciar carrito (Ver Estado Vacío)
-          </button>
-        </div>
-      </div>
-
-      <!-- ================================================================
-           DISEÑO ALTERNATIVO: ESTADO VACÍO (CUANDO NO HAY PRODUCTOS)
-           ================================================================ -->
-      <div id="cart-empty-state" class="cart-empty-card" style="display:none;">
-        <div class="cart-empty-card__illustration" aria-hidden="true">
-          <svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/>
-            <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
-            <line x1="12" y1="9" x2="12" y2="13"/>
-            <line x1="10" y1="11" x2="14" y2="11"/>
-          </svg>
-        </div>
-
-        <span class="ux-pill" style="margin-bottom:10px;">ESTADO ALTERNATIVO · CARRITO SIN ARTÍCULOS</span>
-        <h2 class="md-headline-small" style="margin-bottom:8px;">
-          Tu caja de herramientas de compra está vacía
-        </h2>
-        <p class="md-body-large" style="color:var(--md-sys-color-on-surface-variant); max-width:52ch; margin:0 auto 24px;">
-          Aún no has seleccionado herramientas ni materiales para tu pedido. Explora el catálogo o carga un kit preconfigurado de obra con un solo clic.
-        </p>
-
-        <!-- Primary & Secondary Actions (Fitts's Law: Wide, High-Contrast CTA) -->
-        <div style="display:flex; flex-wrap:wrap; justify-content:center; gap:14px;">
-          <button type="button" class="md-btn md-btn--filled md-btn--cta-xl" data-nav-target="catalog">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3">
-              <rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/>
-              <rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/>
-            </svg>
-            <span>Explorar Catálogo de Herramientas</span>
-          </button>
-
-          <button type="button" class="md-btn md-btn--tonal md-btn--cta-xl" id="btn-empty-load-kit">
-            ⚡ Cargar Kit Demo de Obra (3 artículos)
-          </button>
-        </div>
-
-        <!-- Recognition Suggestions inside Empty State -->
-        <div class="cart-empty-card__suggestions">
-          <div class="md-label-medium" style="color:var(--md-sys-color-on-surface-variant); margin-bottom:12px;">
-            ACCESO RÁPIDO A DEPARTAMENTOS MÁS SOLICITADOS:
-          </div>
-          <div class="md-chip-group" style="justify-content:center;">
-            <button type="button" class="md-chip" data-action="select-category" data-category-id="electricas">
-              ⚡ Herramientas Eléctricas
-            </button>
-            <button type="button" class="md-chip" data-action="select-category" data-category-id="manuales">
-              🔧 Herramientas Manuales
-            </button>
-            <button type="button" class="md-chip" data-action="select-category" data-category-id="electrico">
-              🔌 Material Eléctrico
-            </button>
-            <button type="button" class="md-chip" data-action="select-category" data-category-id="fijaciones">
-              🔩 Fijaciones y Taquetes
-            </button>
-          </div>
-        </div>
-      </div>
-
-      <!-- ================================================================
-           DISEÑO CON PRODUCTOS: CARRITO Y CHECKOUT SIMPLIFICADO
-           ================================================================ -->
-      <div id="cart-filled-state" class="cart-layout">
-        <!-- Left Column: Selected Items + Delivery & Payment -->
-        <div>
-          <div class="checkout-section-card">
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
-              <h2 class="md-title-large">1. Artículos Seleccionados</h2>
-              <span class="md-body-small">Precios unitarios en USD</span>
-            </div>
-            <div id="cart-items-container" class="cart-items-list">
-              <!-- Populated dynamically by js/app.js -->
-            </div>
-          </div>
-
-          <!-- Step 2: Delivery Method (Hick's Law: 2 Clear Options) -->
-          <div class="checkout-section-card">
-            <h2 class="md-title-large">2. Modalidad de Entrega y Recepción</h2>
-            <p class="md-body-small" style="margin-top:2px;">
-              Elige cómo deseas recibir tus herramientas y materiales.
-            </p>
-
-            <div class="radio-cards-grid" role="radiogroup" aria-label="Método de entrega">
-              <label class="md-radio-card is-selected" data-delivery-option="pickup">
-                <input type="radio" name="deliveryMethod" value="pickup" checked />
-                <div>
-                  <div class="md-title-small">Retiro Express en Sucursal (1 hora)</div>
-                  <p class="md-body-small" style="margin-top:2px;">
-                    Bahía de Carga Industrial Norte · <strong>GRATIS ($0.00 USD)</strong>
-                  </p>
-                </div>
-              </label>
-
-              <label class="md-radio-card" data-delivery-option="shipping">
-                <input type="radio" name="deliveryMethod" value="shipping" />
-                <div>
-                  <div class="md-title-small">Envío Directo a Obra / Domicilio</div>
-                  <p class="md-body-small" style="margin-top:2px;">
-                    Entrega mismo día · <strong>$12.00 USD</strong> (Gratis en compras &gt; $250 USD)
-                  </p>
-                </div>
-              </label>
-            </div>
-
-            <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-top:20px;">
-              <div class="md-field" style="margin-bottom:0;">
-                <label class="md-field__label" for="checkout-recipient">Responsable que recibe</label>
-                <div class="md-field__control">
-                  <input
-                    type="text"
-                    id="checkout-recipient"
-                    class="md-field__input"
-                    value="Ing. Roberto Martínez"
-                    required
-                  />
-                </div>
-              </div>
-
-              <div class="md-field" style="margin-bottom:0;">
-                <label class="md-field__label" for="checkout-address">Sucursal o Dirección de Obra</label>
-                <div class="md-field__control">
-                  <input
-                    type="text"
-                    id="checkout-address"
-                    class="md-field__input"
-                    value="Sucursal Industrial Norte — Bahía Express #3"
-                    required
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Step 3: Payment Method -->
-          <div class="checkout-section-card" style="margin-bottom:0;">
-            <h2 class="md-title-large">3. Método de Pago Empresarial</h2>
-            <div class="radio-cards-grid" role="radiogroup" aria-label="Método de pago">
-              <label class="md-radio-card is-selected" data-payment-option="card">
-                <input type="radio" name="paymentMethod" value="card" checked />
-                <div>
-                  <div class="md-title-small">Tarjeta Corporativa Visa / Mastercard</div>
-                  <p class="md-body-small" style="margin-top:2px;">
-                    Terminación •••• 4829 · Cargo inmediato en USD
-                  </p>
-                </div>
-              </label>
-
-              <label class="md-radio-card" data-payment-option="transfer">
-                <input type="radio" name="paymentMethod" value="transfer" />
-                <div>
-                  <div class="md-title-small">Crédito Comercial FerreMax / SPEI</div>
-                  <p class="md-body-small" style="margin-top:2px;">
-                    Línea autorizada Constructora del Valle (Plazo 30 días)
-                  </p>
-                </div>
-              </label>
-            </div>
-          </div>
-        </div>
-
-        <!-- Right Column: Sticky Order Summary & High-Contrast Primary CTA -->
-        <aside class="order-summary-card" aria-label="Desglose financiero del pedido">
-          <span class="ux-pill" style="margin-bottom:8px;">FACTURACIÓN AUTOMÁTICA INCLUIDA</span>
-          <h2 class="md-headline-small">Resumen Financiero</h2>
-          <p class="md-body-small" style="margin-top:2px;">
-            Valores expresados en dólares estadounidenses (USD).
-          </p>
-
-          <div class="summary-lines">
-            <div class="summary-line">
-              <span>Subtotal de artículos</span>
-              <strong id="summary-subtotal" class="font-mono">$186.60 USD</strong>
-            </div>
-            <div class="summary-line summary-line--discount" id="summary-discount-row">
-              <span>Descuento Contratista (5% &gt; $180 USD)</span>
-              <span id="summary-discount" class="font-mono">−$9.33 USD</span>
-            </div>
-            <div class="summary-line">
-              <span>Logística / Entrega</span>
-              <span id="summary-shipping" class="font-mono">GRATIS ($0.00 USD)</span>
-            </div>
-            <div class="summary-line">
-              <span>Impuestos (IVA 16%)</span>
-              <span id="summary-tax" class="font-mono">$28.36 USD</span>
-            </div>
-          </div>
-
-          <div class="summary-total">
-            <div>
-              <div class="md-title-medium">Total a Pagar</div>
-              <div class="md-body-small">Neto en dólares</div>
-            </div>
-            <div id="summary-total" class="summary-total__amount font-mono">$205.63 USD</div>
-          </div>
-
-          <form id="checkout-form">
-            <!-- Primary CTA (Fitts's Law: Maximum Prominence & Target Area) -->
-            <button type="submit" class="md-btn md-btn--filled md-btn--cta-xl md-btn--full">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4">
-                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
-                <polyline points="22 4 12 14.01 9 11.01"/>
-              </svg>
-              <span id="checkout-primary-cta-text">Confirmar y Pagar Pedido</span>
-            </button>
-          </form>
-
-          <div style="margin-top:16px; display:flex; align-items:center; justify-content:center; gap:8px; font-size:0.76rem; color:var(--md-sys-color-on-surface-variant); text-align:center;">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>
-            </svg>
-            <span>Transacción encriptada TLS 1.3 · Garantía de satisfacción FerreMax</span>
-          </div>
-        </aside>
-      </div>
-    </section>
-
-  </main>
+  </div>
 
   <!-- ====================================================================
        MODALS (M3 DIALOGS FOR PRODUCT SPECS & ORDER CONFIRMATION)
@@ -742,20 +863,6 @@
     <span id="md-snackbar-msg" class="md-body-medium">Artículo agregado al carrito</span>
     <button type="button" id="md-snackbar-action" class="md-snackbar__action">Ver carrito</button>
   </div>
-
-  <!-- ====================================================================
-       FOOTER
-       ==================================================================== -->
-  <footer class="app-footer">
-    <div class="app-footer__inner">
-      <div>
-        <strong>FerreMax Pro S.A. de C.V.</strong> — Prototipo SPA Material Design 3 (HTML5 + CSS Nativo + JS ES6)
-      </div>
-      <div>
-        Leyes de UX aplicadas: <strong>Ley de Jakob</strong> · <strong>Ley de Hick</strong> · <strong>Ley de Fitts</strong> · <strong>Reconocimiento sobre Recuerdo</strong>
-      </div>
-    </div>
-  </footer>
 
   <!-- Modular JavaScript (Data, Reactive State & SPA Controller) -->
   <script src="js/data.js" defer></script>

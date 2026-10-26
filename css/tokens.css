@@ -1,37 +1,37 @@
 /* ==========================================================================
-   MATERIAL DESIGN 3 (M3) - DESIGN TOKENS & SYSTEM VARIABLES
-   FerreMax Pro — Ferretería Industrial y Profesional
+   MATERIAL DESIGN 3 (M3) - REFINED DESIGN TOKENS & SYSTEM VARIABLES
+   FerreMax Pro — Ferretería Industrial y Abastecimiento Técnico
    ========================================================================== */
 
 :root {
   /* ------------------------------------------------------------------------
-     1. M3 COLOR SYSTEM (Light Theme - Industrial Amber & Steel Palette)
-     High contrast ratios (WCAG AA/AAA) for clear visual hierarchy.
+     1. M3 COLOR SYSTEM (Light Theme - Industrial Terracotta & Slate Steel)
+     Strict WCAG AA/AAA contrast ratios for visual hierarchy
      ------------------------------------------------------------------------ */
-  
-  /* Primary: Industrial Safety Orange / Deep Amber (Main CTAs & Key Actions) */
-  --md-sys-color-primary: #C44500;
-  --md-sys-color-primary-hover: #AD3C00;
-  --md-sys-color-primary-active: #8F3100;
+
+  /* Primary: Industrial Safety Amber / Deep Orange (Main CTAs) */
+  --md-sys-color-primary: #BF4300;
+  --md-sys-color-primary-hover: #A63A00;
+  --md-sys-color-primary-active: #8A2F00;
   --md-sys-color-on-primary: #FFFFFF;
   --md-sys-color-primary-container: #FFDBCC;
   --md-sys-color-on-primary-container: #351000;
 
-  /* Secondary: Tempered Steel Blue-Grey (Supporting Actions, Filters, Chips) */
-  --md-sys-color-secondary: #485E74;
-  --md-sys-color-secondary-hover: #3B4F63;
-  --md-sys-color-secondary-active: #2E3F50;
+  /* Secondary: Tempered Steel Slate (Navigation Pills, Tonal Actions, Chips) */
+  --md-sys-color-secondary: #415A72;
+  --md-sys-color-secondary-hover: #354B60;
+  --md-sys-color-secondary-active: #293B4D;
   --md-sys-color-on-secondary: #FFFFFF;
-  --md-sys-color-secondary-container: #CFE5FF;
-  --md-sys-color-on-secondary-container: #021D31;
+  --md-sys-color-secondary-container: #D3E4F8;
+  --md-sys-color-on-secondary-container: #0B1D2E;
 
-  /* Tertiary: Workshop Olive / Brass (Badges, Highlights, Technical Specs) */
-  --md-sys-color-tertiary: #606134;
+  /* Tertiary: Technical Olive / Brass */
+  --md-sys-color-tertiary: #5B6037;
   --md-sys-color-on-tertiary: #FFFFFF;
-  --md-sys-color-tertiary-container: #E6E6AD;
-  --md-sys-color-on-tertiary-container: #1C1D00;
+  --md-sys-color-tertiary-container: #E0E5B1;
+  --md-sys-color-on-tertiary-container: #191D00;
 
-  /* Error: Material 3 Standard Semantic Error Tokens */
+  /* Error: Material 3 Semantic Error Palette */
   --md-sys-color-error: #BA1A1A;
   --md-sys-color-error-hover: #9E1414;
   --md-sys-color-error-active: #7D0E0E;
@@ -39,133 +39,119 @@
   --md-sys-color-error-container: #FFDAD6;
   --md-sys-color-on-error-container: #410002;
 
-  /* Success & Warning (Extended M3 Semantic Tokens for Stock & Order status) */
-  --md-sys-color-success: #146C2E;
+  /* Extended Semantic Tokens (Inventory & Commercial Discounts) */
+  --md-sys-color-success: #136C2E;
   --md-sys-color-on-success: #FFFFFF;
-  --md-sys-color-success-container: #C4EED0;
-  --md-sys-color-on-success-container: #072711;
+  --md-sys-color-success-container: #C6EED0;
+  --md-sys-color-on-success-container: #05270F;
 
-  --md-sys-color-warning: #8C5000;
-  --md-sys-color-warning-container: #FFDCC2;
-  --md-sys-color-on-warning-container: #2E1500;
+  --md-sys-color-warning: #855300;
+  --md-sys-color-warning-container: #FFDDB5;
+  --md-sys-color-on-warning-container: #2A1800;
 
-  /* Surface & Background Hierarchy (M3 Surface Container Model) */
-  --md-sys-color-background: #FFF8F6;
-  --md-sys-color-on-background: #201A17;
-  
-  --md-sys-color-surface: #FFF8F6;
-  --md-sys-color-surface-dim: #E4D7D3;
-  --md-sys-color-surface-bright: #FFF8F6;
+  /* M3 Surface Container Hierarchy */
+  --md-sys-color-background: #FAF6F4;
+  --md-sys-color-on-background: #1E1A18;
+
+  --md-sys-color-surface: #FAF6F4;
+  --md-sys-color-surface-dim: #E0D8D4;
+  --md-sys-color-surface-bright: #FFFFFF;
   --md-sys-color-surface-container-lowest: #FFFFFF;
-  --md-sys-color-surface-container-low: #FEF1EC;
-  --md-sys-color-surface-container: #F8EBE6;
-  --md-sys-color-surface-container-high: #F2E5E0;
-  --md-sys-color-surface-container-highest: #ECE0DB;
+  --md-sys-color-surface-container-low: #F6F0ED;
+  --md-sys-color-surface-container: #F0E9E5;
+  --md-sys-color-surface-container-high: #EAE2DE;
+  --md-sys-color-surface-container-highest: #E3DBD7;
 
-  --md-sys-color-on-surface: #201A17;
-  --md-sys-color-on-surface-variant: #52443D;
-  
-  --md-sys-color-inverse-surface: #362F2C;
-  --md-sys-color-inverse-on-surface: #FBEEE9;
+  --md-sys-color-on-surface: #1E1A18;
+  --md-sys-color-on-surface-variant: #51443E;
+
+  --md-sys-color-inverse-surface: #332F2D;
+  --md-sys-color-inverse-on-surface: #F7EFEA;
   --md-sys-color-inverse-primary: #FFB693;
 
   /* Outlines & Dividers */
-  --md-sys-color-outline: #85736C;
-  --md-sys-color-outline-variant: #D7C2B9;
-  --md-sys-color-scrim: rgba(20, 14, 11, 0.52);
+  --md-sys-color-outline: #83746D;
+  --md-sys-color-outline-variant: #D5C3BB;
+  --md-sys-color-scrim: rgba(18, 14, 12, 0.56);
 
   /* ------------------------------------------------------------------------
-     2. M3 STATE LAYER OPACITIES (Hover, Focus, Pressed/Active)
+     2. M3 STATE LAYER OVERLAYS
      ------------------------------------------------------------------------ */
-  --md-sys-state-hover-opacity: 0.08;
-  --md-sys-state-focus-opacity: 0.12;
-  --md-sys-state-pressed-opacity: 0.14;
-  --md-sys-state-dragged-opacity: 0.16;
-
-  /* Precomputed State Overlays */
-  --md-state-primary-hover: rgba(196, 69, 0, 0.08);
-  --md-state-primary-active: rgba(196, 69, 0, 0.16);
-  --md-state-on-surface-hover: rgba(32, 26, 23, 0.08);
-  --md-state-on-surface-active: rgba(32, 26, 23, 0.14);
+  --md-state-primary-hover: rgba(191, 67, 0, 0.08);
+  --md-state-primary-focus: rgba(191, 67, 0, 0.12);
+  --md-state-primary-active: rgba(191, 67, 0, 0.16);
+  --md-state-on-surface-hover: rgba(30, 26, 24, 0.06);
+  --md-state-on-surface-active: rgba(30, 26, 24, 0.12);
 
   /* ------------------------------------------------------------------------
-     3. M3 ELEVATION SYSTEM (Levels 0 - 5)
+     3. M3 ELEVATIONS (Refined Multi-Layer Shadows)
      ------------------------------------------------------------------------ */
   --md-sys-elevation-0: none;
-  --md-sys-elevation-1: 0px 1px 2px rgba(32, 26, 23, 0.14), 0px 1px 3px 1px rgba(32, 26, 23, 0.08);
-  --md-sys-elevation-2: 0px 1px 2px rgba(32, 26, 23, 0.16), 0px 2px 6px 2px rgba(32, 26, 23, 0.10);
-  --md-sys-elevation-3: 0px 4px 8px 3px rgba(32, 26, 23, 0.12), 0px 1px 3px rgba(32, 26, 23, 0.18);
-  --md-sys-elevation-4: 0px 6px 10px 4px rgba(32, 26, 23, 0.14), 0px 2px 3px rgba(32, 26, 23, 0.20);
-  --md-sys-elevation-5: 0px 8px 12px 6px rgba(32, 26, 23, 0.15), 0px 4px 4px rgba(32, 26, 23, 0.22);
+  --md-sys-elevation-1: 0 1px 2px rgba(24, 18, 15, 0.07), 0 1px 3px 1px rgba(24, 18, 15, 0.05);
+  --md-sys-elevation-2: 0 2px 4px -1px rgba(24, 18, 15, 0.08), 0 4px 8px 1px rgba(24, 18, 15, 0.06);
+  --md-sys-elevation-3: 0 4px 8px -2px rgba(24, 18, 15, 0.10), 0 8px 16px 2px rgba(24, 18, 15, 0.08);
+  --md-sys-elevation-4: 0 8px 14px -3px rgba(24, 18, 15, 0.12), 0 12px 24px 3px rgba(24, 18, 15, 0.10);
+  --md-sys-elevation-5: 0 14px 28px -4px rgba(24, 18, 15, 0.18), 0 20px 40px 4px rgba(24, 18, 15, 0.14);
 
   /* ------------------------------------------------------------------------
-     4. M3 SHAPE SCALE (Border Radius Tokens)
+     4. M3 SHAPE SCALE
      ------------------------------------------------------------------------ */
   --md-sys-shape-corner-none: 0px;
-  --md-sys-shape-corner-extra-small: 4px;
+  --md-sys-shape-corner-extra-small: 6px;
   --md-sys-shape-corner-small: 8px;
   --md-sys-shape-corner-medium: 12px;
   --md-sys-shape-corner-large: 16px;
-  --md-sys-shape-corner-extra-large: 28px;
+  --md-sys-shape-corner-extra-large: 24px;
   --md-sys-shape-corner-full: 9999px;
 
   /* ------------------------------------------------------------------------
      5. M3 TYPOGRAPHY SCALE
      ------------------------------------------------------------------------ */
-  --md-sys-typescale-font-brand: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', Oxygen, Ubuntu, sans-serif;
-  --md-sys-typescale-font-plain: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', Oxygen, Ubuntu, sans-serif;
-  --md-sys-typescale-font-mono: 'JetBrains Mono', 'Roboto Mono', ui-monospace, SFMono-Regular, monospace;
+  --md-sys-typescale-font-brand: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --md-sys-typescale-font-plain: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --md-sys-typescale-font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, monospace;
 
-  /* Display */
-  --md-sys-typescale-display-small-size: 2.25rem; /* 36px */
-  --md-sys-typescale-display-small-line-height: 2.75rem; /* 44px */
-  --md-sys-typescale-display-small-weight: 700;
+  --md-sys-typescale-display-small-size: 2.125rem;
+  --md-sys-typescale-display-small-line-height: 2.625rem;
 
-  /* Headline */
-  --md-sys-typescale-headline-large-size: 2rem; /* 32px */
-  --md-sys-typescale-headline-large-line-height: 2.5rem; /* 40px */
-  --md-sys-typescale-headline-medium-size: 1.75rem; /* 28px */
-  --md-sys-typescale-headline-medium-line-height: 2.25rem; /* 36px */
-  --md-sys-typescale-headline-small-size: 1.5rem; /* 24px */
-  --md-sys-typescale-headline-small-line-height: 2rem; /* 32px */
+  --md-sys-typescale-headline-large-size: 1.875rem;
+  --md-sys-typescale-headline-large-line-height: 2.375rem;
+  --md-sys-typescale-headline-medium-size: 1.5rem;
+  --md-sys-typescale-headline-medium-line-height: 2rem;
+  --md-sys-typescale-headline-small-size: 1.25rem;
+  --md-sys-typescale-headline-small-line-height: 1.75rem;
 
-  /* Title */
-  --md-sys-typescale-title-large-size: 1.375rem; /* 22px */
-  --md-sys-typescale-title-large-line-height: 1.75rem; /* 28px */
-  --md-sys-typescale-title-medium-size: 1rem; /* 16px */
-  --md-sys-typescale-title-medium-line-height: 1.5rem; /* 24px */
-  --md-sys-typescale-title-small-size: 0.875rem; /* 14px */
-  --md-sys-typescale-title-small-line-height: 1.25rem; /* 20px */
+  --md-sys-typescale-title-large-size: 1.15rem;
+  --md-sys-typescale-title-large-line-height: 1.6rem;
+  --md-sys-typescale-title-medium-size: 1rem;
+  --md-sys-typescale-title-medium-line-height: 1.45rem;
+  --md-sys-typescale-title-small-size: 0.875rem;
+  --md-sys-typescale-title-small-line-height: 1.25rem;
 
-  /* Body */
-  --md-sys-typescale-body-large-size: 1rem; /* 16px */
-  --md-sys-typescale-body-large-line-height: 1.5rem; /* 24px */
-  --md-sys-typescale-body-medium-size: 0.875rem; /* 14px */
-  --md-sys-typescale-body-medium-line-height: 1.25rem; /* 20px */
-  --md-sys-typescale-body-small-size: 0.75rem; /* 12px */
-  --md-sys-typescale-body-small-line-height: 1rem; /* 16px */
+  --md-sys-typescale-body-large-size: 0.96875rem;
+  --md-sys-typescale-body-large-line-height: 1.5rem;
+  --md-sys-typescale-body-medium-size: 0.875rem;
+  --md-sys-typescale-body-medium-line-height: 1.35rem;
+  --md-sys-typescale-body-small-size: 0.75rem;
+  --md-sys-typescale-body-small-line-height: 1.1rem;
 
-  /* Label */
-  --md-sys-typescale-label-large-size: 0.875rem; /* 14px */
-  --md-sys-typescale-label-large-line-height: 1.25rem; /* 20px */
-  --md-sys-typescale-label-medium-size: 0.75rem; /* 12px */
-  --md-sys-typescale-label-medium-line-height: 1rem; /* 16px */
-  --md-sys-typescale-label-small-size: 0.6875rem; /* 11px */
-  --md-sys-typescale-label-small-line-height: 1rem; /* 16px */
+  --md-sys-typescale-label-large-size: 0.875rem;
+  --md-sys-typescale-label-large-line-height: 1.25rem;
+  --md-sys-typescale-label-medium-size: 0.75rem;
+  --md-sys-typescale-label-medium-line-height: 1rem;
+  --md-sys-typescale-label-small-size: 0.6875rem;
+  --md-sys-typescale-label-small-line-height: 0.95rem;
 
   /* ------------------------------------------------------------------------
-     6. M3 MOTION & EASING TOKENS
+     6. M3 MOTION & SPACING TOKENS
      ------------------------------------------------------------------------ */
   --md-sys-motion-easing-standard: cubic-bezier(0.2, 0, 0, 1);
   --md-sys-motion-easing-emphasized: cubic-bezier(0.2, 0, 0, 1);
   --md-sys-motion-easing-decelerated: cubic-bezier(0, 0, 0, 1);
   --md-sys-motion-duration-short: 150ms;
-  --md-sys-motion-duration-medium: 250ms;
-  --md-sys-motion-duration-long: 400ms;
+  --md-sys-motion-duration-medium: 240ms;
+  --md-sys-motion-duration-long: 380ms;
 
-  /* ------------------------------------------------------------------------
-     7. SPACING & LAYOUT TOKENS (8dp Baseline Grid + Fitts's Law Touch Targets)
-     ------------------------------------------------------------------------ */
   --space-1: 0.25rem;  /* 4px */
   --space-2: 0.5rem;   /* 8px */
   --space-3: 0.75rem;  /* 12px */
@@ -178,71 +164,76 @@
 
   /* Fitts's Law Minimum Target Sizes */
   --touch-target-min: 48px;
-  --cta-height-large: 56px;
+  --cta-height-large: 54px;
   --container-max-width: 1280px;
 }
 
-/* Optional Dark Theme Support (Material 3 Dark Tonal Palette) */
+/* Dark Theme Palette (M3 Dark Tonal Surfaces) */
 [data-theme="dark"] {
   --md-sys-color-primary: #FFB693;
-  --md-sys-color-primary-hover: #FFC8AE;
+  --md-sys-color-primary-hover: #FFC7AD;
   --md-sys-color-primary-active: #FFDBCC;
-  --md-sys-color-on-primary: #561D00;
-  --md-sys-color-primary-container: #7A2B00;
+  --md-sys-color-on-primary: #551B00;
+  --md-sys-color-primary-container: #792900;
   --md-sys-color-on-primary-container: #FFDBCC;
 
-  --md-sys-color-secondary: #B1C9E5;
-  --md-sys-color-secondary-hover: #C4D9F2;
-  --md-sys-color-secondary-active: #D8E8FC;
-  --md-sys-color-on-secondary: #1A3145;
-  --md-sys-color-secondary-container: #31475C;
-  --md-sys-color-on-secondary-container: #CFE5FF;
+  --md-sys-color-secondary: #ADC8E5;
+  --md-sys-color-secondary-hover: #C2D8F0;
+  --md-sys-color-secondary-active: #D5E6FA;
+  --md-sys-color-on-secondary: #122C42;
+  --md-sys-color-secondary-container: #2A435A;
+  --md-sys-color-on-secondary-container: #D3E4F8;
 
-  --md-sys-color-tertiary: #C9CA93;
-  --md-sys-color-on-tertiary: #32320A;
-  --md-sys-color-tertiary-container: #48491F;
-  --md-sys-color-on-tertiary-container: #E6E6AD;
+  --md-sys-color-tertiary: #C4C997;
+  --md-sys-color-on-tertiary: #2D320D;
+  --md-sys-color-tertiary-container: #434922;
+  --md-sys-color-on-tertiary-container: #E0E5B1;
 
   --md-sys-color-error: #FFB4AB;
-  --md-sys-color-error-hover: #FFC7C0;
+  --md-sys-color-error-hover: #FFC8C2;
   --md-sys-color-error-active: #FFDAD6;
   --md-sys-color-on-error: #690005;
   --md-sys-color-error-container: #93000A;
   --md-sys-color-on-error-container: #FFDAD6;
 
-  --md-sys-color-success: #85D69C;
+  --md-sys-color-success: #86D69D;
   --md-sys-color-on-success: #003915;
   --md-sys-color-success-container: #005221;
-  --md-sys-color-on-success-container: #C4EED0;
+  --md-sys-color-on-success-container: #C6EED0;
 
-  --md-sys-color-background: #181210;
-  --md-sys-color-on-background: #ECE0DB;
+  --md-sys-color-warning: #FFB95C;
+  --md-sys-color-warning-container: #653E00;
+  --md-sys-color-on-warning-container: #FFDDB5;
 
-  --md-sys-color-surface: #181210;
-  --md-sys-color-surface-dim: #181210;
-  --md-sys-color-surface-bright: #3F3734;
-  --md-sys-color-surface-container-lowest: #120D0B;
-  --md-sys-color-surface-container-low: #201A17;
-  --md-sys-color-surface-container: #251E1B;
-  --md-sys-color-surface-container-high: #2F2825;
-  --md-sys-color-surface-container-highest: #3B3330;
+  --md-sys-color-background: #141210;
+  --md-sys-color-on-background: #ECE0DC;
 
-  --md-sys-color-on-surface: #ECE0DB;
-  --md-sys-color-on-surface-variant: #D7C2B9;
+  --md-sys-color-surface: #141210;
+  --md-sys-color-surface-dim: #141210;
+  --md-sys-color-surface-bright: #3B3532;
+  --md-sys-color-surface-container-lowest: #0F0D0B;
+  --md-sys-color-surface-container-low: #1D1917;
+  --md-sys-color-surface-container: #221E1B;
+  --md-sys-color-surface-container-high: #2C2724;
+  --md-sys-color-surface-container-highest: #37312E;
 
-  --md-sys-color-inverse-surface: #ECE0DB;
-  --md-sys-color-inverse-on-surface: #362F2C;
-  --md-sys-color-inverse-primary: #C44500;
+  --md-sys-color-on-surface: #ECE0DC;
+  --md-sys-color-on-surface-variant: #D5C3BB;
 
-  --md-sys-color-outline: #A08D85;
-  --md-sys-color-outline-variant: #52443D;
+  --md-sys-color-inverse-surface: #ECE0DC;
+  --md-sys-color-inverse-on-surface: #332F2D;
+  --md-sys-color-inverse-primary: #BF4300;
+
+  --md-sys-color-outline: #9E8D86;
+  --md-sys-color-outline-variant: #51443E;
 
   --md-state-primary-hover: rgba(255, 182, 147, 0.10);
+  --md-state-primary-focus: rgba(255, 182, 147, 0.14);
   --md-state-primary-active: rgba(255, 182, 147, 0.18);
-  --md-state-on-surface-hover: rgba(236, 224, 219, 0.08);
-  --md-state-on-surface-active: rgba(236, 224, 219, 0.14);
+  --md-state-on-surface-hover: rgba(236, 224, 220, 0.08);
+  --md-state-on-surface-active: rgba(236, 224, 220, 0.14);
 
-  --md-sys-elevation-1: 0px 1px 3px 1px rgba(0, 0, 0, 0.35), 0px 1px 2px rgba(0, 0, 0, 0.50);
-  --md-sys-elevation-2: 0px 2px 6px 2px rgba(0, 0, 0, 0.40), 0px 1px 2px rgba(0, 0, 0, 0.55);
-  --md-sys-elevation-3: 0px 4px 8px 3px rgba(0, 0, 0, 0.45), 0px 1px 3px rgba(0, 0, 0, 0.60);
+  --md-sys-elevation-1: 0 1px 3px 1px rgba(0, 0, 0, 0.40), 0 1px 2px rgba(0, 0, 0, 0.50);
+  --md-sys-elevation-2: 0 2px 6px 2px rgba(0, 0, 0, 0.45), 0 1px 2px rgba(0, 0, 0, 0.55);
+  --md-sys-elevation-3: 0 4px 10px 3px rgba(0, 0, 0, 0.50), 0 2px 4px rgba(0, 0, 0, 0.60);
 }

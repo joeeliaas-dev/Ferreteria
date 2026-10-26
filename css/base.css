@@ -1,5 +1,5 @@
 /* ==========================================================================
-   BASE STYLES, RESET, TYPOGRAPHY & SPA LAYOUT ARCHITECTURE
+   BASE STYLES, TYPOGRAPHY & DUAL VIEWPORT SHELL (DESKTOP + MOBILE VIEW)
    ========================================================================== */
 
 *,
@@ -59,6 +59,7 @@ img,
 svg {
   display: block;
   max-width: 100%;
+  flex-shrink: 0;
 }
 
 /* --------------------------------------------------------------------------
@@ -68,8 +69,8 @@ svg {
   font-family: var(--md-sys-typescale-font-brand);
   font-size: var(--md-sys-typescale-display-small-size);
   line-height: var(--md-sys-typescale-display-small-line-height);
-  font-weight: var(--md-sys-typescale-display-small-weight);
-  letter-spacing: -0.015em;
+  font-weight: 700;
+  letter-spacing: -0.02em;
 }
 
 .md-headline-large {
@@ -77,21 +78,23 @@ svg {
   font-size: var(--md-sys-typescale-headline-large-size);
   line-height: var(--md-sys-typescale-headline-large-line-height);
   font-weight: 700;
-  letter-spacing: -0.01em;
+  letter-spacing: -0.015em;
 }
 
 .md-headline-medium {
   font-family: var(--md-sys-typescale-font-brand);
   font-size: var(--md-sys-typescale-headline-medium-size);
   line-height: var(--md-sys-typescale-headline-medium-line-height);
-  font-weight: 600;
+  font-weight: 700;
+  letter-spacing: -0.01em;
 }
 
 .md-headline-small {
   font-family: var(--md-sys-typescale-font-brand);
   font-size: var(--md-sys-typescale-headline-small-size);
   line-height: var(--md-sys-typescale-headline-small-line-height);
-  font-weight: 600;
+  font-weight: 700;
+  letter-spacing: -0.005em;
 }
 
 .md-title-large {
@@ -104,14 +107,13 @@ svg {
   font-size: var(--md-sys-typescale-title-medium-size);
   line-height: var(--md-sys-typescale-title-medium-line-height);
   font-weight: 600;
-  letter-spacing: 0.01em;
+  letter-spacing: 0.005em;
 }
 
 .md-title-small {
   font-size: var(--md-sys-typescale-title-small-size);
   line-height: var(--md-sys-typescale-title-small-line-height);
   font-weight: 600;
-  letter-spacing: 0.01em;
 }
 
 .md-body-large {
@@ -144,14 +146,14 @@ svg {
   font-size: var(--md-sys-typescale-label-medium-size);
   line-height: var(--md-sys-typescale-label-medium-line-height);
   font-weight: 600;
-  letter-spacing: 0.03em;
+  letter-spacing: 0.02em;
 }
 
 .md-label-small {
   font-size: var(--md-sys-typescale-label-small-size);
   line-height: var(--md-sys-typescale-label-small-line-height);
-  font-weight: 600;
-  letter-spacing: 0.04em;
+  font-weight: 700;
+  letter-spacing: 0.05em;
   text-transform: uppercase;
 }
 
@@ -160,8 +162,134 @@ svg {
 }
 
 /* --------------------------------------------------------------------------
-   SPA Screen Switching & Animations
+   DUAL VIEWPORT ENGINE: Desktop Full-Width vs. Interactive Mobile Shell
    -------------------------------------------------------------------------- */
+.viewport-stage {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  transition: padding var(--md-sys-motion-duration-medium) var(--md-sys-motion-easing-standard),
+              background-color var(--md-sys-motion-duration-medium) var(--md-sys-motion-easing-standard);
+}
+
+.device-shell {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  width: 100%;
+  background-color: var(--md-sys-color-background);
+}
+
+/* Mobile Status Bar & Gesture Bar (Hidden in Desktop View, Active in Mobile View) */
+.mobile-status-bar,
+.mobile-bottom-nav,
+.mobile-gesture-bar {
+  display: none;
+}
+
+/* Interactive Mobile Viewport Mode (Triggered via Top Bar Switcher) */
+[data-viewport="mobile"] .viewport-stage {
+  background: radial-gradient(circle at 50% 20%, var(--md-sys-color-surface-container-high) 0%, var(--md-sys-color-surface-dim) 100%);
+  padding: var(--space-6) var(--space-4);
+  align-items: center;
+  justify-content: flex-start;
+}
+
+[data-theme="dark"][data-viewport="mobile"] .viewport-stage {
+  background: radial-gradient(circle at 50% 20%, #25201D 0%, #0B0908 100%);
+}
+
+[data-viewport="mobile"] .device-shell {
+  width: 412px;
+  max-width: 100%;
+  height: 844px;
+  max-height: calc(100vh - 96px);
+  border-radius: 42px;
+  border: 10px solid #1E1A18;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.32), 0 0 0 2px rgba(255, 255, 255, 0.14);
+  overflow: hidden;
+  position: relative;
+  flex: 0 0 auto;
+}
+
+[data-theme="dark"][data-viewport="mobile"] .device-shell {
+  border-color: #2B2623;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(255, 255, 255, 0.12);
+}
+
+/* Android M3 Status Bar inside Mobile Shell */
+[data-viewport="mobile"] .mobile-status-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 22px 6px;
+  background-color: var(--md-sys-color-surface-container-low);
+  color: var(--md-sys-color-on-surface);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  flex-shrink: 0;
+  position: relative;
+  z-index: 120;
+}
+
+.mobile-status-bar__camera {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background-color: #141110;
+  box-shadow: inset 0 0 0 2px #2D2926;
+}
+
+.mobile-status-bar__icons {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* Scrollable Main Area inside Mobile Shell */
+.device-scroll-area {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+[data-viewport="mobile"] .device-scroll-area {
+  scrollbar-width: thin;
+}
+
+/* M3 Bottom Navigation Bar (Visible in Mobile Viewport & Native Mobile) */
+[data-viewport="mobile"] .mobile-bottom-nav {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  background-color: var(--md-sys-color-surface-container);
+  border-top: 1px solid var(--md-sys-color-outline-variant);
+  padding: 8px 6px 4px;
+  flex-shrink: 0;
+  z-index: 120;
+}
+
+[data-viewport="mobile"] .mobile-gesture-bar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 20px;
+  background-color: var(--md-sys-color-surface-container);
+  flex-shrink: 0;
+}
+
+.mobile-gesture-bar__pill {
+  width: 108px;
+  height: 4px;
+  border-radius: 999px;
+  background-color: var(--md-sys-color-on-surface-variant);
+  opacity: 0.45;
+}
+
+/* Main Content Container */
 .app-main {
   flex: 1;
   width: 100%;
@@ -170,19 +298,24 @@ svg {
   padding: var(--space-6) var(--space-6) var(--space-12);
 }
 
+[data-viewport="mobile"] .app-main {
+  padding: var(--space-4) var(--space-4) var(--space-6);
+}
+
+/* SPA Screen Switching */
 .spa-screen {
   display: none;
-  animation: mdScreenFadeIn var(--md-sys-motion-duration-medium) var(--md-sys-motion-easing-decelerated) forwards;
+  animation: mdScreenTransition var(--md-sys-motion-duration-medium) var(--md-sys-motion-easing-decelerated) forwards;
 }
 
 .spa-screen.is-active {
   display: block;
 }
 
-@keyframes mdScreenFadeIn {
+@keyframes mdScreenTransition {
   from {
     opacity: 0;
-    transform: translateY(10px);
+    transform: translateY(8px);
   }
   to {
     opacity: 1;
@@ -199,12 +332,11 @@ svg {
 }
 
 .animate-shake {
-  animation: mdShakeError 360ms ease-in-out;
+  animation: mdShakeError 340ms ease-in-out;
 }
 
-/* Accessibility & Focus Ring */
 :focus-visible {
-  outline: 3px solid var(--md-sys-color-primary);
+  outline: 2.5px solid var(--md-sys-color-primary);
   outline-offset: 2px;
 }
 
@@ -220,8 +352,23 @@ svg {
   border: 0;
 }
 
+/* Native Mobile Breakpoint (Real Smartphone / Narrow Window) */
 @media (max-width: 768px) {
   .app-main {
     padding: var(--space-4) var(--space-4) 5.5rem;
+  }
+
+  .mobile-bottom-nav {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: var(--md-sys-color-surface-container);
+    border-top: 1px solid var(--md-sys-color-outline-variant);
+    padding: 8px 6px 10px;
+    z-index: 200;
+    box-shadow: var(--md-sys-elevation-3);
   }
 }

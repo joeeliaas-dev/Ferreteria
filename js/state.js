@@ -1,13 +1,14 @@
 /* ==========================================================================
    SPA STATE MANAGEMENT & BUSINESS LOGIC
-   Handles Navigation, Auth, Recognition History, Cart & Checkout Calculations
+   Handles Navigation, Viewport Mode (Desktop/Mobile), Auth, Cart & Checkout
    ========================================================================== */
 
 (function () {
-  const STORAGE_KEY = "ferremax_m3_spa_state_v1";
+  const STORAGE_KEY = "ferremax_m3_spa_state_v2";
 
   const defaultState = {
     currentScreen: "login", // 'login' | 'home' | 'catalog' | 'cart'
+    viewport: "desktop",    // 'desktop' | 'mobile'
     theme: "light",
     auth: {
       isAuthenticated: false,
@@ -20,15 +21,13 @@
       search: "",
       sortBy: "featured" // 'featured' | 'price-asc' | 'price-desc' | 'name-asc'
     },
-    /* Pre-populated recognition history so the Home screen immediately shows familiar items */
     recentlyViewed: ["DEW-DCD7781", "FLU-117-PRO", "IND-THW12-100", "URR-1214M"],
-    /* Start with 2 realistic items in cart so user can inspect populated checkout or toggle Empty State */
     cart: [
       { productId: "DEW-DCD7781", quantity: 1 },
       { productId: "FIS-SX8-100", quantity: 2 }
     ],
     checkout: {
-      deliveryMethod: "pickup", // 'pickup' (Free, 1h) | 'shipping' ($12.00 USD or Free > $250)
+      deliveryMethod: "pickup", // 'pickup' | 'shipping'
       paymentMethod: "card",    // 'card' | 'transfer'
       recipientName: "Ing. Roberto Martínez",
       branchOrAddress: "Sucursal Industrial Norte — Bahía de Carga Express #3",
@@ -81,7 +80,18 @@
       if (!validScreens.includes(screenId)) return;
       state.currentScreen = screenId;
       saveAndNotify();
+      const scrollArea = document.querySelector(".device-scroll-area");
+      if (scrollArea) {
+        scrollArea.scrollTo({ top: 0, behavior: "smooth" });
+      }
       window.scrollTo({ top: 0, behavior: "smooth" });
+    },
+
+    setViewport(mode) {
+      if (mode !== "desktop" && mode !== "mobile") return;
+      state.viewport = mode;
+      document.documentElement.setAttribute("data-viewport", mode);
+      saveAndNotify();
     },
 
     toggleTheme() {
@@ -96,6 +106,10 @@
       state.auth.userName = userName || "Ing. Roberto Martínez";
       state.currentScreen = "home";
       saveAndNotify();
+      const scrollArea = document.querySelector(".device-scroll-area");
+      if (scrollArea) {
+        scrollArea.scrollTo({ top: 0, behavior: "smooth" });
+      }
       window.scrollTo({ top: 0, behavior: "smooth" });
     },
 
@@ -148,24 +162,6 @@
       return product;
     },
 
-    setItemQuantity(productId, quantity) {
-      const product = window.FERREMAX_DATA.products.find((p) => p.id === productId);
-      if (!product) return;
-
-      if (quantity <= 0) {
-        state.cart = state.cart.filter((item) => item.productId !== productId);
-      } else {
-        const existing = state.cart.find((item) => item.productId === productId);
-        const clamped = Math.min(product.stock, quantity);
-        if (existing) {
-          existing.quantity = clamped;
-        } else {
-          state.cart.push({ productId, quantity: clamped });
-        }
-      }
-      saveAndNotify();
-    },
-
     removeFromCart(productId) {
       state.cart = state.cart.filter((item) => item.productId !== productId);
       saveAndNotify();
@@ -208,7 +204,6 @@
         .filter(Boolean);
 
       const subtotal = +detailedItems.reduce((acc, item) => acc + item.lineTotal, 0).toFixed(2);
-      // 5% professional contractor discount on orders >= $180.00 USD
       const discount = subtotal >= 180 ? +(subtotal * 0.05).toFixed(2) : 0;
       const discountedSubtotal = +(subtotal - discount).toFixed(2);
 

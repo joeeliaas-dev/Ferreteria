@@ -1,10 +1,11 @@
 /* ==========================================================================
-   MAIN SPA CONTROLLER & UI RENDERER (Material Design 3)
-   Manages the 4 screens: Login, Principal, Catálogo, Compra (Carrito/Checkout)
+   MAIN SPA CONTROLLER & UI RENDERER (Material Design 3 - Zero Emojis)
+   Manages Desktop/Mobile Viewports & 4 Screens: Login, Principal, Catálogo, Compra
    ========================================================================== */
 
 (function () {
   const DATA = window.FERREMAX_DATA;
+  const ICONS = DATA.uiIcons;
   const State = window.FerreState;
 
   let snackbarTimer = null;
@@ -50,11 +51,11 @@
   }
 
   /* ------------------------------------------------------------------------
-     UTILITY: Material Design 3 Ripple Effect on Interactive Elements
+     UTILITY: Material Design 3 Ripple Effect
      ------------------------------------------------------------------------ */
   function attachRippleEffect() {
     document.addEventListener("pointerdown", (e) => {
-      const target = e.target.closest(".md-btn, .md-nav-item, .md-chip");
+      const target = e.target.closest(".md-btn, .md-nav-item, .md-chip, .md-segmented-btn");
       if (!target || target.disabled) return;
 
       const rect = target.getBoundingClientRect();
@@ -66,12 +67,12 @@
       ripple.style.top = `${e.clientY - rect.top - size / 2}px`;
 
       target.appendChild(ripple);
-      setTimeout(() => ripple.remove(), 600);
+      setTimeout(() => ripple.remove(), 560);
     });
   }
 
   /* ------------------------------------------------------------------------
-     RENDER: Top App Bar, Navigation Tabs & Cart Badge
+     RENDER: Top App Bar, Navigation Bars (Desktop + Mobile) & Viewport Mode
      ------------------------------------------------------------------------ */
   function renderNavigation(currentState) {
     // 1. Toggle active SPA screen
@@ -80,15 +81,25 @@
       section.classList.toggle("is-active", screenName === currentState.currentScreen);
     });
 
-    // 2. Highlight active M3 Navigation Bar pill
+    // 2. Highlight active Navigation Item (both Desktop Top Bar & Mobile Bottom Nav)
     document.querySelectorAll("[data-nav-target]").forEach((btn) => {
-      const target = btn.getAttribute("data-nav-target");
-      const isActive = target === currentState.currentScreen;
-      btn.classList.toggle("is-active", isActive);
-      btn.setAttribute("aria-current", isActive ? "page" : "false");
+      if (btn.classList.contains("md-nav-item") || btn.classList.contains("m3-bottom-nav-item")) {
+        const target = btn.getAttribute("data-nav-target");
+        const isActive = target === currentState.currentScreen;
+        btn.classList.toggle("is-active", isActive);
+        btn.setAttribute("aria-current", isActive ? "page" : "false");
+      }
     });
 
-    // 3. Update Cart Badges
+    // 3. Highlight active Viewport Switcher button (Desktop vs Mobile)
+    document.querySelectorAll("[data-viewport-mode]").forEach((btn) => {
+      const mode = btn.getAttribute("data-viewport-mode");
+      const isSelected = mode === currentState.viewport;
+      btn.classList.toggle("is-active", isSelected);
+      btn.setAttribute("aria-pressed", isSelected ? "true" : "false");
+    });
+
+    // 4. Update Cart Badges
     const totalCount = State.getCartItemCount();
     document.querySelectorAll(".js-cart-count").forEach((badge) => {
       const prev = badge.textContent;
@@ -99,7 +110,7 @@
       }
     });
 
-    // 4. Update User Status Chip in Header
+    // 5. Update User Status Chip in Header
     const userChipLabel = document.getElementById("header-user-status");
     if (userChipLabel) {
       userChipLabel.textContent = currentState.auth.isAuthenticated
@@ -107,10 +118,10 @@
         : "Iniciar sesión";
     }
 
-    // 5. Update Theme button icon
+    // 6. Update Theme button label
     const themeLabel = document.getElementById("theme-toggle-label");
     if (themeLabel) {
-      themeLabel.textContent = currentState.theme === "dark" ? "Modo Claro" : "Modo Oscuro";
+      themeLabel.textContent = currentState.theme === "dark" ? "Tema Claro" : "Tema Oscuro";
     }
   }
 
@@ -148,7 +159,7 @@
 
     if (loginCard) {
       loginCard.classList.remove("animate-shake");
-      void loginCard.offsetWidth; // Force reflow for shake animation
+      void loginCard.offsetWidth;
       loginCard.classList.add("animate-shake");
     }
 
@@ -205,7 +216,6 @@
 
     if (!form || !emailInput || !passInput) return;
 
-    // Clear error state when typing
     emailInput.addEventListener("input", () => {
       setFieldError(
         "field-login-email",
@@ -224,7 +234,6 @@
       );
     });
 
-    // Show / Hide password toggle
     if (togglePassBtn) {
       togglePassBtn.addEventListener("click", () => {
         const isPass = passInput.type === "password";
@@ -233,37 +242,32 @@
           "aria-label",
           isPass ? "Ocultar contraseña" : "Mostrar contraseña"
         );
-        togglePassBtn.innerHTML = isPass
-          ? `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>`
-          : `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>`;
+        togglePassBtn.innerHTML = isPass ? ICONS.eyeOff : ICONS.eyeOpen;
       });
     }
 
-    // 1-Click Simulate Error State (Required by prompt: design validation with error state)
     if (simulateErrorBtn) {
       simulateErrorBtn.addEventListener("click", () => {
         emailInput.value = DATA.demoCredentials.email;
-        passInput.value = "ClaveErronea123";
+        passInput.value = "ClaveIncorrecta99";
         triggerLoginErrorState(
           emailInput.value,
           passInput.value,
-          "Error de autenticación (Código AUTH-401): La contraseña ingresada es incorrecta para inge.martinez@constructora.com."
+          "Error de autenticación (AUTH-401): La contraseña ingresada es incorrecta para inge.martinez@constructora.com."
         );
         passInput.focus();
       });
     }
 
-    // 1-Click Fill Valid Credentials
     if (fillValidBtn) {
       fillValidBtn.addEventListener("click", () => {
         emailInput.value = DATA.demoCredentials.email;
         passInput.value = DATA.demoCredentials.password;
         clearLoginErrors();
-        showSnackbar("Credenciales válidas cargadas. Haz clic en 'Iniciar Sesión'.", null);
+        showSnackbar("Credenciales válidas restauradas. Pulsa 'Iniciar Sesión'.", null);
       });
     }
 
-    // Form Submit Handler
     form.addEventListener("submit", (e) => {
       e.preventDefault();
       const emailVal = emailInput.value.trim();
@@ -274,7 +278,7 @@
         triggerLoginErrorState(
           emailVal,
           passVal,
-          "Por favor verifica el formato de tu correo electrónico antes de continuar."
+          "Verifica el formato de tu correo electrónico antes de continuar."
         );
         emailInput.focus();
         return;
@@ -284,7 +288,7 @@
         triggerLoginErrorState(
           emailVal,
           passVal,
-          "La contraseña ingresada es incorrecta. Verifica tus datos o utiliza el botón 'Usar Clave Correcta'."
+          "La contraseña ingresada es incorrecta. Verifica tus datos o pulsa 'Restaurar clave'."
         );
         passInput.focus();
         return;
@@ -293,7 +297,7 @@
       clearLoginErrors();
       State.loginSuccess(emailVal, DATA.demoCredentials.userName);
       showSnackbar(
-        `¡Sesión iniciada! Bienvenido, ${DATA.demoCredentials.userName}.`,
+        `Sesión iniciada correctamente: ${DATA.demoCredentials.userName}`,
         "Ir al Catálogo",
         () => State.setScreen("catalog")
       );
@@ -302,7 +306,6 @@
 
   /* ------------------------------------------------------------------------
      PRODUCT CARD HTML BUILDER (Shared by Home Recognition Strip & Catalog)
-     Applies Hick's Law (concise key specs) & Fitts's Law (large CTA/Stepper)
      ------------------------------------------------------------------------ */
   function createProductCardHTML(product) {
     const qtyInCart = State.getQuantityInCart(product.id);
@@ -320,22 +323,20 @@
 
     const actionAreaHTML =
       qtyInCart > 0
-        ? `<div style="display:flex; align-items:center; justify-content:space-between; gap:8px;">
+        ? `<div class="product-card__in-cart-bar">
              <div class="md-stepper" aria-label="Cantidad en carrito">
-               <button type="button" class="md-stepper__btn" data-action="decrease-qty" data-product-id="${product.id}" aria-label="Disminuir cantidad">−</button>
+               <button type="button" class="md-stepper__btn" data-action="decrease-qty" data-product-id="${product.id}" aria-label="Disminuir cantidad">${ICONS.minus}</button>
                <span class="md-stepper__value">${qtyInCart}</span>
-               <button type="button" class="md-stepper__btn" data-action="increase-qty" data-product-id="${product.id}" aria-label="Aumentar cantidad">+</button>
+               <button type="button" class="md-stepper__btn" data-action="increase-qty" data-product-id="${product.id}" aria-label="Aumentar cantidad">${ICONS.plus}</button>
              </div>
-             <button type="button" class="md-btn md-btn--tonal md-btn--sm" data-action="go-to-cart" style="flex:1;">
-               En carrito (${qtyInCart}) →
+             <button type="button" class="md-btn md-btn--tonal md-btn--sm" data-action="go-to-cart">
+               <span>En carrito (${qtyInCart})</span>
+               ${ICONS.arrowRight}
              </button>
            </div>`
         : `<button type="button" class="md-btn md-btn--filled md-btn--full" data-action="add-to-cart" data-product-id="${product.id}">
-             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3">
-               <circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/>
-               <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
-             </svg>
-             Agregar al carrito
+             ${ICONS.cart}
+             <span>Agregar al carrito</span>
            </button>`;
 
     return `
@@ -374,26 +375,17 @@
      SCREEN 2: RENDER HOME SCREEN (RECOGNITION OVER RECALL)
      ------------------------------------------------------------------------ */
   function renderHomeScreen(currentState) {
-    // 1. Render Quick Shortcuts (Accesos Directos)
     const shortcutsContainer = document.getElementById("home-shortcuts-grid");
     if (shortcutsContainer) {
       shortcutsContainer.innerHTML = DATA.quickShortcuts
         .map(
           (sc) => `
           <button type="button" class="shortcut-card" data-shortcut-id="${sc.id}">
-            <div class="shortcut-card__icon">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
-                <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
-              </svg>
-            </div>
+            <div class="shortcut-card__icon">${ICONS.bolt}</div>
             <div>
-              <div style="display:flex; align-items:center; gap:6px; margin-bottom:2px;">
-                <span class="shortcut-card__title">${sc.title}</span>
-              </div>
+              <span class="shortcut-card__title">${sc.title}</span>
               <p class="shortcut-card__meta">${sc.subtitle}</p>
-              <span class="spec-tag" style="display:inline-block; margin-top:6px; color:var(--md-sys-color-primary); font-weight:700;">
-                ${sc.badge}
-              </span>
+              <span class="shortcut-card__badge">${sc.badge}</span>
             </div>
           </button>
         `
@@ -401,7 +393,6 @@
         .join("");
     }
 
-    // 2. Render Principal Categories (with visual icons & concrete examples for Recognition)
     const categoriesContainer = document.getElementById("home-categories-grid");
     if (categoriesContainer) {
       categoriesContainer.innerHTML = DATA.categories
@@ -417,9 +408,12 @@
                 <h3 class="md-title-medium">${cat.name}</h3>
                 <p class="category-card__examples">${cat.examples}</p>
               </div>
-              <div style="display:flex; align-items:center; justify-content:space-between; width:100%; padding-top:8px; border-top:1px solid var(--md-sys-color-outline-variant);">
-                <span class="md-body-small" style="font-weight:600;">${cat.highlight}</span>
-                <span class="category-card__cta">Explorar →</span>
+              <div class="category-card__footer">
+                <span class="md-body-small">${cat.highlight}</span>
+                <span class="category-card__cta">
+                  <span>Explorar</span>
+                  ${ICONS.arrowRight}
+                </span>
               </div>
             </button>
           `;
@@ -427,7 +421,6 @@
         .join("");
     }
 
-    // 3. Render Recently Viewed / Recognized Essential Products
     const recognitionGrid = document.getElementById("home-recognition-products");
     if (recognitionGrid) {
       const recentProducts = currentState.recentlyViewed
@@ -446,12 +439,12 @@
   function renderCatalogScreen(currentState) {
     const { category, search, sortBy } = currentState.catalog;
 
-    // 1. Render Category Filter Chips (Hick's Law)
     const chipContainer = document.getElementById("catalog-category-chips");
     if (chipContainer) {
       const allChip = `
         <button type="button" class="md-chip ${category === "all" ? "is-selected" : ""}" data-action="filter-chip" data-category-id="all">
-          ${category === "all" ? "✓ " : ""}Todas las categorías (${DATA.products.length})
+          ${category === "all" ? ICONS.check : ""}
+          <span>Todas las categorías (${DATA.products.length})</span>
         </button>
       `;
 
@@ -460,7 +453,8 @@
           const isSelected = category === cat.id;
           return `
             <button type="button" class="md-chip ${isSelected ? "is-selected" : ""}" data-action="filter-chip" data-category-id="${cat.id}">
-              ${isSelected ? "✓ " : ""}${cat.name} (${cat.itemCount})
+              ${isSelected ? ICONS.check : ""}
+              <span>${cat.name} (${cat.itemCount})</span>
             </button>
           `;
         })
@@ -469,7 +463,6 @@
       chipContainer.innerHTML = allChip + catChips;
     }
 
-    // 2. Sync Search & Sort Controls
     const searchInput = document.getElementById("catalog-search-input");
     if (searchInput && document.activeElement !== searchInput) {
       searchInput.value = search;
@@ -480,7 +473,6 @@
       sortSelect.value = sortBy;
     }
 
-    // 3. Filter and Sort Products
     const normalizedQuery = search.trim().toLowerCase();
     let filtered = DATA.products.filter((prod) => {
       const matchesCat = category === "all" || prod.category === category;
@@ -501,10 +493,9 @@
       filtered.sort((a, b) => Number(b.featured) - Number(a.featured));
     }
 
-    // 4. Update Counter & Product Grid
     const countLabel = document.getElementById("catalog-results-count");
     if (countLabel) {
-      countLabel.textContent = `Mostrando ${filtered.length} de ${DATA.products.length} productos disponibles`;
+      countLabel.textContent = `Mostrando ${filtered.length} de ${DATA.products.length} artículos`;
     }
 
     const productsGrid = document.getElementById("catalog-products-grid");
@@ -512,11 +503,9 @@
 
     if (filtered.length === 0) {
       productsGrid.innerHTML = `
-        <div class="cart-empty-card" style="grid-column: 1 / -1; padding: var(--space-8);">
-          <h3 class="md-headline-small" style="margin-bottom: var(--space-2);">
-            Sin coincidencias para "${search}"
-          </h3>
-          <p class="md-body-medium" style="color: var(--md-sys-color-on-surface-variant); margin-bottom: var(--space-5);">
+        <div class="cart-empty-card" style="grid-column: 1 / -1;">
+          <h3 class="md-headline-small">Sin coincidencias para "${search}"</h3>
+          <p class="md-body-medium cart-empty-card__desc">
             Intenta buscar por nombre de herramienta (ej. "Taladro", "Cable 12 AWG", "Llaves") o restablece los filtros.
           </p>
           <button type="button" class="md-btn md-btn--filled" data-action="reset-catalog-filters">
@@ -540,18 +529,16 @@
 
     if (!emptyStateEl || !filledStateEl) return;
 
-    // Update top helper button to quickly test Empty vs Populated Cart
     if (toggleEmptyBtn) {
       if (summary.items.length === 0) {
-        toggleEmptyBtn.textContent = "⚡ Cargar 3 artículos de prueba";
+        toggleEmptyBtn.innerHTML = `${ICONS.bolt}<span>Cargar 3 artículos de prueba</span>`;
         toggleEmptyBtn.setAttribute("data-cart-demo-mode", "load");
       } else {
-        toggleEmptyBtn.textContent = "🗑️ Vaciar carrito (Ver Estado Vacío)";
+        toggleEmptyBtn.innerHTML = `${ICONS.trash}<span>Vaciar carrito (Ver Estado Vacío)</span>`;
         toggleEmptyBtn.setAttribute("data-cart-demo-mode", "clear");
       }
     }
 
-    // Show Alternative Empty State if no items selected
     if (summary.items.length === 0) {
       emptyStateEl.style.display = "block";
       filledStateEl.style.display = "none";
@@ -561,7 +548,6 @@
     emptyStateEl.style.display = "none";
     filledStateEl.style.display = "grid";
 
-    // Render Selected Cart Items
     const listEl = document.getElementById("cart-items-container");
     if (listEl) {
       listEl.innerHTML = summary.items
@@ -572,7 +558,7 @@
               <div class="cart-item-card__thumb">${svgIcon}</div>
               <div>
                 <div class="product-card__sku">SKU: ${item.sku} · ${item.brand}</div>
-                <h3 class="md-title-medium" style="margin: 2px 0 4px;">${item.name}</h3>
+                <h3 class="md-title-medium">${item.name}</h3>
                 <div class="md-body-small">
                   Precio unitario: <strong>${formatUSD(item.price)}</strong> (${item.unit})
                 </div>
@@ -581,17 +567,14 @@
                 <div class="md-title-medium" style="color: var(--md-sys-color-primary);">
                   ${formatUSD(item.lineTotal)}
                 </div>
-                <div style="display:flex; align-items:center; gap:8px;">
+                <div class="cart-item-card__controls">
                   <div class="md-stepper" aria-label="Modificar cantidad de ${item.name}">
-                    <button type="button" class="md-stepper__btn" data-action="decrease-qty" data-product-id="${item.id}" title="Reducir cantidad">−</button>
+                    <button type="button" class="md-stepper__btn" data-action="decrease-qty" data-product-id="${item.id}" title="Reducir cantidad">${ICONS.minus}</button>
                     <span class="md-stepper__value">${item.quantity}</span>
-                    <button type="button" class="md-stepper__btn" data-action="increase-qty" data-product-id="${item.id}" title="Aumentar cantidad">+</button>
+                    <button type="button" class="md-stepper__btn" data-action="increase-qty" data-product-id="${item.id}" title="Aumentar cantidad">${ICONS.plus}</button>
                   </div>
                   <button type="button" class="md-icon-btn" data-action="remove-item" data-product-id="${item.id}" title="Eliminar artículo del pedido" aria-label="Eliminar artículo">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                      <polyline points="3 6 5 6 21 6"/>
-                      <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
-                    </svg>
+                    ${ICONS.trash}
                   </button>
                 </div>
               </div>
@@ -601,7 +584,6 @@
         .join("");
     }
 
-    // Sync Radio Cards for Delivery & Payment
     document.querySelectorAll("[data-delivery-option]").forEach((card) => {
       const val = card.getAttribute("data-delivery-option");
       const isSelected = val === currentState.checkout.deliveryMethod;
@@ -618,7 +600,6 @@
       if (radio) radio.checked = isSelected;
     });
 
-    // Update Summary Numbers
     const subtotalEl = document.getElementById("summary-subtotal");
     const discountRowEl = document.getElementById("summary-discount-row");
     const discountEl = document.getElementById("summary-discount");
@@ -630,7 +611,7 @@
     if (subtotalEl) subtotalEl.textContent = formatUSD(summary.subtotal);
     if (discountRowEl && discountEl) {
       discountRowEl.style.display = summary.discount > 0 ? "flex" : "none";
-      discountEl.textContent = "−" + formatUSD(summary.discount);
+      discountEl.textContent = "-" + formatUSD(summary.discount);
     }
     if (shippingEl) {
       shippingEl.textContent =
@@ -639,7 +620,7 @@
     if (taxEl) taxEl.textContent = formatUSD(summary.tax);
     if (totalEl) totalEl.textContent = formatUSD(summary.total);
     if (ctaBtnText) {
-      ctaBtnText.textContent = `Confirmar y Pagar Pedido · ${formatUSD(summary.total)}`;
+      ctaBtnText.textContent = `Confirmar y Pagar · ${formatUSD(summary.total)}`;
     }
   }
 
@@ -657,7 +638,7 @@
 
     const svgArt = DATA.svgIcons[product.iconKey] || DATA.svgIcons.drill;
     const specsList = product.specs
-      .map((s) => `<li class="spec-tag" style="font-size:0.85rem; padding:4px 10px;">✓ ${s}</li>`)
+      .map((s) => `<li class="spec-tag">${s}</li>`)
       .join("");
 
     content.innerHTML = `
@@ -667,27 +648,28 @@
           <span class="product-card__sku" style="margin-left:8px;">SKU: ${product.sku}</span>
           <h2 class="md-headline-small" style="margin-top:6px;">${product.name}</h2>
         </div>
-        <button type="button" class="md-icon-btn" data-action="close-modals" aria-label="Cerrar ventana">✕</button>
+        <button type="button" class="md-icon-btn" data-action="close-modals" aria-label="Cerrar ventana">${ICONS.close}</button>
       </div>
       <div style="display:flex; align-items:center; justify-content:center; background:var(--md-sys-color-surface-container); border-radius:16px; padding:24px; margin-bottom:16px;">
-        <div style="transform:scale(1.3);">${svgArt}</div>
+        <div style="transform:scale(1.25);">${svgArt}</div>
       </div>
       <p class="md-body-large" style="color:var(--md-sys-color-on-surface-variant); margin-bottom:16px;">
         ${product.description}
       </p>
       <div style="margin-bottom:20px;">
-        <div class="md-label-medium" style="margin-bottom:8px; color:var(--md-sys-color-on-surface-variant);">
-          ESPECIFICACIONES TÉCNICAS:
+        <div class="md-label-small" style="margin-bottom:8px; color:var(--md-sys-color-on-surface-variant);">
+          Especificaciones Técnicas
         </div>
         <ul style="display:flex; flex-wrap:wrap; gap:8px;">${specsList}</ul>
       </div>
-      <div style="display:flex; align-items:center; justify-content:space-between; padding-top:16px; border-top:1px solid var(--md-sys-color-outline-variant); gap:16px;">
+      <div style="display:flex; align-items:center; justify-content:space-between; padding-top:16px; border-top:1px solid var(--md-sys-color-outline-variant); gap:16px; flex-wrap:wrap;">
         <div>
           <div class="product-price">${formatUSD(product.price)}</div>
-          <div class="md-body-small">Unidad de venta: ${product.unit} · Stock: ${product.stock} disp.</div>
+          <div class="md-body-small">Unidad: ${product.unit} · Stock: ${product.stock} disp.</div>
         </div>
         <button type="button" class="md-btn md-btn--filled md-btn--cta-xl" data-action="add-from-modal" data-product-id="${product.id}">
-          Agregar al pedido
+          ${ICONS.cart}
+          <span>Agregar al pedido</span>
         </button>
       </div>
     `;
@@ -703,7 +685,7 @@
     const itemsRows = order.summary.items
       .map(
         (item) => `
-        <li style="display:flex; justify-content:space-between; padding:6px 0; border-bottom:1px dashed var(--md-sys-color-outline-variant); font-size:0.88rem;">
+        <li style="display:flex; justify-content:space-between; padding:6px 0; border-bottom:1px dashed var(--md-sys-color-outline-variant); font-size:0.86rem;">
           <span><strong>${item.quantity}x</strong> ${item.name}</span>
           <span class="font-mono">${formatUSD(item.lineTotal)}</span>
         </li>
@@ -712,33 +694,33 @@
       .join("");
 
     content.innerHTML = `
-      <div style="text-align:center; margin-bottom:20px;">
-        <div style="width:68px; height:68px; border-radius:50%; background:var(--md-sys-color-success-container); color:var(--md-sys-color-on-success-container); display:grid; place-items:center; margin:0 auto 14px;">
-          <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6">
+      <div style="text-align:center; margin-bottom:18px;">
+        <div style="width:60px; height:60px; border-radius:50%; background:var(--md-sys-color-success-container); color:var(--md-sys-color-on-success-container); display:grid; place-items:center; margin:0 auto 12px;">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6">
             <polyline points="20 6 9 17 4 12"/>
           </svg>
         </div>
         <span class="ux-pill">Folio de Orden: <strong>${order.folio}</strong></span>
-        <h2 class="md-headline-small" style="margin-top:10px;">¡Compra Confirmada con Éxito!</h2>
+        <h2 class="md-headline-small" style="margin-top:10px;">Compra Confirmada con Éxito</h2>
         <p class="md-body-medium" style="color:var(--md-sys-color-on-surface-variant); margin-top:4px;">
           ${order.date} · Preparando salida de almacén para <strong>${order.checkout.recipientName}</strong>
         </p>
       </div>
 
-      <div style="background:var(--md-sys-color-surface-container-lowest); border-radius:16px; padding:16px; border:1px solid var(--md-sys-color-outline-variant); margin-bottom:20px;">
-        <div class="md-label-medium" style="margin-bottom:8px; color:var(--md-sys-color-primary);">
-          RESUMEN DE HERRAMIENTAS E INSUMOS (${order.summary.itemCount} unidades)
+      <div style="background:var(--md-sys-color-surface-container-low); border-radius:14px; padding:16px; border:1px solid var(--md-sys-color-outline-variant); margin-bottom:20px;">
+        <div class="md-label-small" style="margin-bottom:8px; color:var(--md-sys-color-primary);">
+          Resumen de Herramientas e Insumos (${order.summary.itemCount} unidades)
         </div>
         <ul style="margin-bottom:12px;">${itemsRows}</ul>
-        <div style="display:flex; justify-content:space-between; font-weight:800; font-size:1.1rem; padding-top:6px;">
+        <div style="display:flex; justify-content:space-between; font-weight:800; font-size:1.05rem; padding-top:6px;">
           <span>Total Pagado (IVA incluido):</span>
           <span style="color:var(--md-sys-color-primary);">${formatUSD(order.summary.total)}</span>
         </div>
       </div>
 
-      <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
         <button type="button" class="md-btn md-btn--tonal" data-action="close-modals-and-home">
-          Volver al Inicio
+          Ir al Inicio
         </button>
         <button type="button" class="md-btn md-btn--filled" data-action="close-modals-and-catalog">
           Seguir Comprando
@@ -759,8 +741,15 @@
      GLOBAL EVENT DELEGATION & INTERACTION BINDINGS
      ------------------------------------------------------------------------ */
   function bindGlobalEvents() {
-    // 1. Navigation clicks (Top App Bar, UX Bar, Action links)
     document.addEventListener("click", (e) => {
+      // Viewport mode toggle (Desktop vs Mobile)
+      const viewportBtn = e.target.closest("[data-viewport-mode]");
+      if (viewportBtn) {
+        const mode = viewportBtn.getAttribute("data-viewport-mode");
+        State.setViewport(mode);
+        return;
+      }
+
       // Screen navigation
       const navTrigger = e.target.closest("[data-nav-target]");
       if (navTrigger) {
@@ -935,7 +924,7 @@
         const mode = toggleCartStateBtn.getAttribute("data-cart-demo-mode");
         if (mode === "clear") {
           State.clearCart();
-          showSnackbar("Carrito vaciado. Mostrando estado vacío alternativo.", null);
+          showSnackbar("Carrito vaciado. Mostrando diseño de estado vacío.", null);
         } else {
           State.loadSampleOrder();
           showSnackbar("Kit de muestra cargado en el carrito.", null);
@@ -967,7 +956,7 @@
       }
     });
 
-    // 2. Home Hero Search Form
+    // Home Hero Search Form
     const homeSearchForm = document.getElementById("home-search-form");
     if (homeSearchForm) {
       homeSearchForm.addEventListener("submit", (e) => {
@@ -979,7 +968,7 @@
       });
     }
 
-    // 3. Catalog Live Search & Sort
+    // Catalog Live Search & Sort
     const catalogSearchInput = document.getElementById("catalog-search-input");
     if (catalogSearchInput) {
       catalogSearchInput.addEventListener("input", (e) => {
@@ -994,7 +983,7 @@
       });
     }
 
-    // 4. Checkout Form Submission (End-to-End Purchase Flow)
+    // Checkout Form Submission
     const checkoutForm = document.getElementById("checkout-form");
     if (checkoutForm) {
       checkoutForm.addEventListener("submit", (e) => {
@@ -1004,7 +993,7 @@
 
         if (nameInput && !nameInput.value.trim()) {
           nameInput.focus();
-          showSnackbar("Ingresa el nombre de quien recibe el pedido.", null);
+          showSnackbar("Ingresa el nombre del responsable que recibe el pedido.", null);
           return;
         }
 
@@ -1018,7 +1007,6 @@
       });
     }
 
-    // Escape key closes modals
     document.addEventListener("keydown", (e) => {
       if (e.key === "Escape") closeAllModals();
     });
@@ -1029,6 +1017,7 @@
      ------------------------------------------------------------------------ */
   function renderApp(currentState) {
     document.documentElement.setAttribute("data-theme", currentState.theme);
+    document.documentElement.setAttribute("data-viewport", currentState.viewport);
     renderNavigation(currentState);
     renderHomeScreen(currentState);
     renderCatalogScreen(currentState);

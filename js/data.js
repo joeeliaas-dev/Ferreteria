@@ -1,7 +1,6 @@
 /* ==========================================================================
-   REALISTIC HARDWARE STORE DATA (ZERO LOREM IPSUM)
+   REALISTIC HARDWARE STORE DATA & VECTOR SVG LIBRARY (ZERO EMOJIS)
    FerreMax Pro — Suministros Industriales, Eléctricos y de Construcción
-   Prices in USD ($), authentic SKUs, technical specifications & custom SVGs
    ========================================================================== */
 
 window.FERREMAX_DATA = {
@@ -13,69 +12,86 @@ window.FERREMAX_DATA = {
     memberTier: "Cuenta Pro Mayorista"
   },
 
-  /* Custom Vector Illustrations for Categories & Products */
+  /* Pure Geometric SVG UI Icons (Material Design 3 Style - Zero Emojis) */
+  uiIcons: {
+    check: `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>`,
+    arrowRight: `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>`,
+    close: `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>`,
+    cart: `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>`,
+    trash: `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>`,
+    bolt: `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>`,
+    plus: `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>`,
+    minus: `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>`,
+    eyeOpen: `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>`,
+    eyeOff: `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>`
+  },
+
+  /* Detailed Vector Illustrations for Categories & Products */
   svgIcons: {
     drill: `<svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <rect x="14" y="14" width="28" height="16" rx="4" fill="#E65100" stroke="#351000" stroke-width="2.5"/>
-      <path d="M42 18H49C50.6569 18 52 19.3431 52 21V23C52 24.6569 50.6569 26 49 26H42V18Z" fill="#52443D" stroke="#351000" stroke-width="2.5"/>
-      <line x1="52" y1="22" x2="60" y2="22" stroke="#351000" stroke-width="3" stroke-linecap="round"/>
-      <path d="M22 30L18 46H28L31 30H22Z" fill="#FF9800" stroke="#351000" stroke-width="2.5" stroke-linejoin="round"/>
-      <rect x="13" y="46" width="20" height="8" rx="3" fill="#201A17" stroke="#351000" stroke-width="2.5"/>
-      <circle cx="24" cy="22" r="3" fill="#FFF8F6"/>
+      <rect x="13" y="14" width="29" height="16" rx="4" fill="#D84315" stroke="#24130C" stroke-width="2.4"/>
+      <path d="M42 17.5H49C50.6569 17.5 52 18.8431 52 20.5V23.5C52 25.1569 50.6569 26.5 49 26.5H42V17.5Z" fill="#546E7A" stroke="#24130C" stroke-width="2.4"/>
+      <line x1="52" y1="22" x2="60" y2="22" stroke="#24130C" stroke-width="3" stroke-linecap="round"/>
+      <path d="M21 30L17 46H27.5L30.5 30H21Z" fill="#FF8F00" stroke="#24130C" stroke-width="2.4" stroke-linejoin="round"/>
+      <rect x="12" y="46" width="21" height="8" rx="3" fill="#263238" stroke="#24130C" stroke-width="2.4"/>
+      <circle cx="22" cy="22" r="2.8" fill="#FAF6F4"/>
+      <line x1="29" y1="19" x2="36" y2="19" stroke="#FAF6F4" stroke-width="2" stroke-linecap="round"/>
+      <line x1="29" y1="24" x2="36" y2="24" stroke="#FAF6F4" stroke-width="2" stroke-linecap="round"/>
     </svg>`,
 
     grinder: `<svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <circle cx="20" cy="34" r="13" fill="#78909C" stroke="#201A17" stroke-width="2.5"/>
-      <circle cx="20" cy="34" r="4" fill="#FFF8F6" stroke="#201A17" stroke-width="2"/>
-      <rect x="28" y="27" width="26" height="14" rx="5" fill="#C44500" stroke="#201A17" stroke-width="2.5"/>
-      <line x1="34" y1="27" x2="34" y2="16" stroke="#201A17" stroke-width="4" stroke-linecap="round"/>
+      <circle cx="20" cy="34" r="13" fill="#78909C" stroke="#24130C" stroke-width="2.4"/>
+      <circle cx="20" cy="34" r="4.5" fill="#FAF6F4" stroke="#24130C" stroke-width="2"/>
+      <rect x="28" y="27" width="26" height="14" rx="5" fill="#BF4300" stroke="#24130C" stroke-width="2.4"/>
+      <line x1="34" y1="27" x2="34" y2="15" stroke="#24130C" stroke-width="4" stroke-linecap="round"/>
+      <line x1="42" y1="31" x2="48" y2="31" stroke="#FAF6F4" stroke-width="2" stroke-linecap="round"/>
     </svg>`,
 
     wrench: `<svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="M44.5 13C39.8 13 36 16.8 36 21.5C36 23.2 36.5 24.8 37.4 26.1L16.1 47.4C14.5 49 14.5 51.5 16.1 53.1C17.7 54.7 20.2 54.7 21.8 53.1L43.1 31.8C44.4 32.7 46 33.2 47.7 33.2C52.4 33.2 56.2 29.4 56.2 24.7L50 28.5L45.5 24L49.3 17.8C47.9 14.9 46.3 13 44.5 13Z" fill="#607D8B" stroke="#201A17" stroke-width="2.5" stroke-linejoin="round"/>
-      <circle cx="19" cy="50" r="2" fill="#FFF8F6"/>
+      <path d="M44.5 13C39.8 13 36 16.8 36 21.5C36 23.2 36.5 24.8 37.4 26.1L16.1 47.4C14.5 49 14.5 51.5 16.1 53.1C17.7 54.7 20.2 54.7 21.8 53.1L43.1 31.8C44.4 32.7 46 33.2 47.7 33.2C52.4 33.2 56.2 29.4 56.2 24.7L50 28.5L45.5 24L49.3 17.8C47.9 14.9 46.3 13 44.5 13Z" fill="#607D8B" stroke="#24130C" stroke-width="2.4" stroke-linejoin="round"/>
+      <circle cx="19" cy="50" r="2" fill="#FAF6F4"/>
     </svg>`,
 
     hammer: `<svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <rect x="29" y="24" width="7" height="30" rx="3" fill="#D84315" stroke="#201A17" stroke-width="2.5"/>
-      <path d="M16 14H44C47 14 50 17 50 20V24H16V14Z" fill="#546E7A" stroke="#201A17" stroke-width="2.5" stroke-linejoin="round"/>
-      <path d="M16 14C12 14 9 17 8 22L16 24V14Z" fill="#78909C" stroke="#201A17" stroke-width="2.5" stroke-linejoin="round"/>
+      <rect x="29" y="24" width="7" height="30" rx="3" fill="#D84315" stroke="#24130C" stroke-width="2.4"/>
+      <path d="M16 14H44C47 14 50 17 50 20V24H16V14Z" fill="#546E7A" stroke="#24130C" stroke-width="2.4" stroke-linejoin="round"/>
+      <path d="M16 14C12 14 9 17 8 22L16 24V14Z" fill="#78909C" stroke="#24130C" stroke-width="2.4" stroke-linejoin="round"/>
     </svg>`,
 
     screws: `<svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <rect x="20" y="12" width="24" height="8" rx="3" fill="#78909C" stroke="#201A17" stroke-width="2.5"/>
-      <path d="M26 20H38L36 48L32 54L28 48L26 20Z" fill="#B0BEC5" stroke="#201A17" stroke-width="2.5" stroke-linejoin="round"/>
-      <line x1="25" y1="27" x2="39" y2="29" stroke="#201A17" stroke-width="2.5" stroke-linecap="round"/>
-      <line x1="26" y1="34" x2="38" y2="36" stroke="#201A17" stroke-width="2.5" stroke-linecap="round"/>
-      <line x1="27" y1="41" x2="37" y2="43" stroke="#201A17" stroke-width="2.5" stroke-linecap="round"/>
+      <rect x="20" y="12" width="24" height="8" rx="3" fill="#78909C" stroke="#24130C" stroke-width="2.4"/>
+      <path d="M26 20H38L36 48L32 54L28 48L26 20Z" fill="#B0BEC5" stroke="#24130C" stroke-width="2.4" stroke-linejoin="round"/>
+      <line x1="25" y1="27" x2="39" y2="29" stroke="#24130C" stroke-width="2.4" stroke-linecap="round"/>
+      <line x1="26" y1="34" x2="38" y2="36" stroke="#24130C" stroke-width="2.4" stroke-linecap="round"/>
+      <line x1="27" y1="41" x2="37" y2="43" stroke="#24130C" stroke-width="2.4" stroke-linecap="round"/>
     </svg>`,
 
     multimeter: `<svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <rect x="16" y="10" width="32" height="44" rx="6" fill="#FFB300" stroke="#201A17" stroke-width="2.5"/>
-      <rect x="21" y="15" width="22" height="12" rx="2" fill="#CFD8DC" stroke="#201A17" stroke-width="2"/>
-      <circle cx="32" cy="38" r="7" fill="#37474F" stroke="#201A17" stroke-width="2"/>
-      <line x1="32" y1="38" x2="36" y2="34" stroke="#FFDBCC" stroke-width="2.5" stroke-linecap="round"/>
+      <rect x="16" y="10" width="32" height="44" rx="6" fill="#FFB300" stroke="#24130C" stroke-width="2.4"/>
+      <rect x="21" y="15" width="22" height="12" rx="2" fill="#CFD8DC" stroke="#24130C" stroke-width="2"/>
+      <circle cx="32" cy="38" r="7" fill="#37474F" stroke="#24130C" stroke-width="2"/>
+      <line x1="32" y1="38" x2="36" y2="34" stroke="#FFDBCC" stroke-width="2.4" stroke-linecap="round"/>
       <circle cx="25" cy="49" r="2" fill="#B71C1C"/>
-      <circle cx="39" cy="49" r="2" fill="#201A17"/>
+      <circle cx="39" cy="49" r="2" fill="#24130C"/>
     </svg>`,
 
     cable: `<svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <circle cx="32" cy="32" r="20" fill="#D84315" stroke="#201A17" stroke-width="2.5"/>
-      <circle cx="32" cy="32" r="13" fill="#FF8A65" stroke="#201A17" stroke-width="2"/>
-      <circle cx="32" cy="32" r="6" fill="#FFF8F6" stroke="#201A17" stroke-width="2"/>
+      <circle cx="32" cy="32" r="20" fill="#D84315" stroke="#24130C" stroke-width="2.4"/>
+      <circle cx="32" cy="32" r="13" fill="#FF8A65" stroke="#24130C" stroke-width="2"/>
+      <circle cx="32" cy="32" r="6" fill="#FAF6F4" stroke="#24130C" stroke-width="2"/>
       <path d="M46 18L56 12" stroke="#BF360C" stroke-width="3.5" stroke-linecap="round"/>
     </svg>`,
 
     plumbing: `<svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="M14 26H34V48H46V36H44V26C44 20.5 39.5 16 34 16H14V26Z" fill="#485E74" stroke="#201A17" stroke-width="2.5" stroke-linejoin="round"/>
-      <rect x="22" y="8" width="16" height="5" rx="2.5" fill="#C44500" stroke="#201A17" stroke-width="2"/>
-      <line x1="30" y1="13" x2="30" y2="16" stroke="#201A17" stroke-width="3"/>
+      <path d="M14 26H34V48H46V36H44V26C44 20.5 39.5 16 34 16H14V26Z" fill="#415A72" stroke="#24130C" stroke-width="2.4" stroke-linejoin="round"/>
+      <rect x="22" y="8" width="16" height="5" rx="2.5" fill="#BF4300" stroke="#24130C" stroke-width="2"/>
+      <line x1="30" y1="13" x2="30" y2="16" stroke="#24130C" stroke-width="3"/>
     </svg>`,
 
     safety: `<svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="M12 38C12 24.7 21 15 32 15C43 15 52 24.7 52 38H12Z" fill="#FFB300" stroke="#201A17" stroke-width="2.5" stroke-linejoin="round"/>
-      <path d="M8 38H56C56 41.5 53 44 49 44H15C11 44 8 41.5 8 38Z" fill="#F57C00" stroke="#201A17" stroke-width="2.5"/>
-      <path d="M28 15V29H36V15" fill="#FFF8E1" stroke="#201A17" stroke-width="2"/>
+      <path d="M12 38C12 24.7 21 15 32 15C43 15 52 24.7 52 38H12Z" fill="#FFB300" stroke="#24130C" stroke-width="2.4" stroke-linejoin="round"/>
+      <path d="M8 38H56C56 41.5 53 44 49 44H15C11 44 8 41.5 8 38Z" fill="#F57C00" stroke="#24130C" stroke-width="2.4"/>
+      <path d="M28 15V29H36V15" fill="#FFF8E1" stroke="#24130C" stroke-width="2"/>
     </svg>`
   },
 
@@ -126,7 +142,7 @@ window.FERREMAX_DATA = {
       name: "Seguridad Industrial (EPP)",
       iconKey: "safety",
       itemCount: 2,
-      examples: "Cascos dieléctricos Clase E con ajuste matraca, guantes anticorte nivel A5 y lentes.",
+      examples: "Cascos dieléctricos Clase E con ajuste matraca, guantes anticorte nivel A3 y lentes.",
       highlight: "Certificación ANSI Z89.1"
     }
   ],
@@ -147,7 +163,7 @@ window.FERREMAX_DATA = {
       subtitle: "Agrega 3 insumos esenciales al carrito en 1 clic",
       actionType: "load-sample-order",
       target: ["DEW-DCD7781", "IND-THW12-100", "FIS-SX8-100"],
-      badge: "1 Clic"
+      badge: "Carga Rápida"
     },
     {
       id: "herramienta-pesada",
