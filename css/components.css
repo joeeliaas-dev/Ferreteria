@@ -1,0 +1,722 @@
+/* ==========================================================================
+   MATERIAL DESIGN 3 (M3) - STANDARD COMPONENTS
+   Includes complete interactive states: Normal, :hover, :focus-visible, :active
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. M3 TOP APP BAR & NAVIGATION BAR (Jakob's Law + Fitts's Law)
+   -------------------------------------------------------------------------- */
+.md-top-app-bar {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background-color: var(--md-sys-color-surface-container-low);
+  border-bottom: 1px solid var(--md-sys-color-outline-variant);
+  box-shadow: var(--md-sys-elevation-1);
+  transition: background-color var(--md-sys-motion-duration-medium) var(--md-sys-motion-easing-standard);
+}
+
+.md-top-app-bar__inner {
+  max-width: var(--container-max-width);
+  margin: 0 auto;
+  padding: var(--space-3) var(--space-6);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+}
+
+/* Brand Logo */
+.brand-logo {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-1) var(--space-2);
+  border-radius: var(--md-sys-shape-corner-medium);
+  color: var(--md-sys-color-on-surface);
+  transition: background-color var(--md-sys-motion-duration-short) var(--md-sys-motion-easing-standard),
+              transform var(--md-sys-motion-duration-short) var(--md-sys-motion-easing-standard);
+}
+
+.brand-logo:hover {
+  background-color: var(--md-state-on-surface-hover);
+}
+
+.brand-logo:active {
+  background-color: var(--md-state-on-surface-active);
+  transform: scale(0.98);
+}
+
+.brand-logo__mark {
+  width: 42px;
+  height: 42px;
+  border-radius: var(--md-sys-shape-corner-medium);
+  background: linear-gradient(135deg, var(--md-sys-color-primary), #9E3500);
+  color: var(--md-sys-color-on-primary);
+  display: grid;
+  place-items: center;
+  box-shadow: var(--md-sys-elevation-1);
+  flex-shrink: 0;
+}
+
+.brand-logo__text {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+}
+
+.brand-logo__title {
+  font-size: 1.15rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+  color: var(--md-sys-color-on-surface);
+}
+
+.brand-logo__subtitle {
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--md-sys-color-primary);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+/* M3 Navigation Bar (4 Screens Switcher with M3 Active Indicator Pill) */
+.md-nav-bar {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  background-color: var(--md-sys-color-surface-container);
+  padding: 4px;
+  border-radius: var(--md-sys-shape-corner-full);
+  border: 1px solid var(--md-sys-color-outline-variant);
+}
+
+.md-nav-item {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-height: 44px;
+  padding: 0 var(--space-4);
+  border-radius: var(--md-sys-shape-corner-full);
+  color: var(--md-sys-color-on-surface-variant);
+  font-size: var(--md-sys-typescale-label-large-size);
+  font-weight: 600;
+  transition: background-color var(--md-sys-motion-duration-short) var(--md-sys-motion-easing-standard),
+              color var(--md-sys-motion-duration-short) var(--md-sys-motion-easing-standard),
+              transform var(--md-sys-motion-duration-short) var(--md-sys-motion-easing-standard);
+}
+
+.md-nav-item:hover {
+  background-color: var(--md-state-on-surface-hover);
+  color: var(--md-sys-color-on-surface);
+}
+
+.md-nav-item:active {
+  background-color: var(--md-state-on-surface-active);
+  transform: scale(0.97);
+}
+
+.md-nav-item.is-active {
+  background-color: var(--md-sys-color-secondary-container);
+  color: var(--md-sys-color-on-secondary-container);
+  box-shadow: var(--md-sys-elevation-1);
+}
+
+.md-nav-item.is-active:hover {
+  filter: brightness(0.97);
+}
+
+.md-nav-item__step {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  border-radius: var(--md-sys-shape-corner-full);
+  background-color: rgba(0, 0, 0, 0.08);
+  font-size: 0.7rem;
+  font-weight: 700;
+}
+
+.md-nav-item.is-active .md-nav-item__step {
+  background-color: var(--md-sys-color-secondary);
+  color: var(--md-sys-color-on-secondary);
+}
+
+/* Header Actions (Search, User chip, Theme toggle, Cart Button) */
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+/* M3 Badge */
+.md-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 22px;
+  height: 22px;
+  padding: 0 6px;
+  border-radius: var(--md-sys-shape-corner-full);
+  background-color: var(--md-sys-color-primary);
+  color: var(--md-sys-color-on-primary);
+  font-size: 0.75rem;
+  font-weight: 700;
+  line-height: 1;
+  transition: transform var(--md-sys-motion-duration-short) var(--md-sys-motion-easing-standard);
+}
+
+.md-badge.bump {
+  transform: scale(1.28);
+}
+
+/* --------------------------------------------------------------------------
+   2. M3 BUTTONS (Filled, Tonal, Outlined, Text, Icon)
+   Fitts's Law: Ample padding & min-height 48px (56px for large primary CTA).
+   Complete states: normal, :hover, :focus-visible, :active, :disabled
+   -------------------------------------------------------------------------- */
+.md-btn {
+  position: relative;
+  overflow: hidden;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  min-height: var(--touch-target-min);
+  padding: 0 var(--space-6);
+  border-radius: var(--md-sys-shape-corner-full);
+  font-size: var(--md-sys-typescale-label-large-size);
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+  user-select: none;
+  transition: background-color var(--md-sys-motion-duration-short) var(--md-sys-motion-easing-standard),
+              box-shadow var(--md-sys-motion-duration-short) var(--md-sys-motion-easing-standard),
+              border-color var(--md-sys-motion-duration-short) var(--md-sys-motion-easing-standard),
+              color var(--md-sys-motion-duration-short) var(--md-sys-motion-easing-standard),
+              transform 120ms var(--md-sys-motion-easing-standard);
+}
+
+/* Primary Filled Button (Highest Visual Hierarchy CTA) */
+.md-btn--filled {
+  background-color: var(--md-sys-color-primary);
+  color: var(--md-sys-color-on-primary);
+  box-shadow: var(--md-sys-elevation-1);
+}
+
+.md-btn--filled:hover {
+  background-color: var(--md-sys-color-primary-hover);
+  box-shadow: var(--md-sys-elevation-2);
+  transform: translateY(-1px);
+}
+
+.md-btn--filled:active {
+  background-color: var(--md-sys-color-primary-active);
+  box-shadow: var(--md-sys-elevation-0);
+  transform: translateY(0) scale(0.98);
+}
+
+/* Extra-large Fitts's Law Primary CTA */
+.md-btn--cta-xl {
+  min-height: var(--cta-height-large);
+  padding: 0 var(--space-8);
+  font-size: 1rem;
+  font-weight: 700;
+  box-shadow: var(--md-sys-elevation-2);
+}
+
+.md-btn--cta-xl:hover {
+  box-shadow: var(--md-sys-elevation-3);
+}
+
+/* Filled Tonal Button (Secondary Hierarchy) */
+.md-btn--tonal {
+  background-color: var(--md-sys-color-secondary-container);
+  color: var(--md-sys-color-on-secondary-container);
+}
+
+.md-btn--tonal:hover {
+  background-color: #BDD8FA;
+  box-shadow: var(--md-sys-elevation-1);
+  transform: translateY(-1px);
+}
+
+[data-theme="dark"] .md-btn--tonal:hover {
+  background-color: #3E5870;
+}
+
+.md-btn--tonal:active {
+  background-color: #A9C9F2;
+  box-shadow: var(--md-sys-elevation-0);
+  transform: translateY(0) scale(0.98);
+}
+
+/* Outlined Button */
+.md-btn--outlined {
+  background-color: transparent;
+  color: var(--md-sys-color-primary);
+  border: 1.5px solid var(--md-sys-color-outline);
+}
+
+.md-btn--outlined:hover {
+  background-color: var(--md-state-primary-hover);
+  border-color: var(--md-sys-color-primary);
+}
+
+.md-btn--outlined:active {
+  background-color: var(--md-state-primary-active);
+  border-color: var(--md-sys-color-primary-active);
+  transform: scale(0.98);
+}
+
+/* Danger / Error Outlined Button */
+.md-btn--error-outlined {
+  background-color: transparent;
+  color: var(--md-sys-color-error);
+  border: 1.5px solid var(--md-sys-color-error);
+}
+
+.md-btn--error-outlined:hover {
+  background-color: var(--md-sys-color-error-container);
+  color: var(--md-sys-color-on-error-container);
+}
+
+.md-btn--error-outlined:active {
+  transform: scale(0.98);
+  filter: brightness(0.94);
+}
+
+/* Text Button */
+.md-btn--text {
+  background-color: transparent;
+  color: var(--md-sys-color-primary);
+  padding: 0 var(--space-4);
+}
+
+.md-btn--text:hover {
+  background-color: var(--md-state-primary-hover);
+}
+
+.md-btn--text:active {
+  background-color: var(--md-state-primary-active);
+  transform: scale(0.98);
+}
+
+/* Compact button modifier */
+.md-btn--sm {
+  min-height: 40px;
+  padding: 0 var(--space-4);
+  font-size: var(--md-sys-typescale-label-medium-size);
+}
+
+.md-btn--full {
+  width: 100%;
+}
+
+/* Disabled State (M3 Spec: 12% container, 38% content) */
+.md-btn:disabled {
+  background-color: rgba(32, 26, 23, 0.12);
+  color: rgba(32, 26, 23, 0.38);
+  border-color: transparent;
+  box-shadow: none;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* M3 Icon Button */
+.md-icon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: var(--md-sys-shape-corner-full);
+  color: var(--md-sys-color-on-surface-variant);
+  background-color: transparent;
+  transition: background-color var(--md-sys-motion-duration-short) var(--md-sys-motion-easing-standard),
+              color var(--md-sys-motion-duration-short) var(--md-sys-motion-easing-standard),
+              transform 120ms var(--md-sys-motion-easing-standard);
+}
+
+.md-icon-btn:hover {
+  background-color: var(--md-state-on-surface-hover);
+  color: var(--md-sys-color-on-surface);
+}
+
+.md-icon-btn:active {
+  background-color: var(--md-state-on-surface-active);
+  transform: scale(0.93);
+}
+
+/* M3 Ripple Span */
+.md-ripple {
+  position: absolute;
+  border-radius: 50%;
+  transform: scale(0);
+  animation: mdRippleEffect 550ms ease-out;
+  background-color: rgba(255, 255, 255, 0.32);
+  pointer-events: none;
+}
+
+@keyframes mdRippleEffect {
+  to {
+    transform: scale(3.5);
+    opacity: 0;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   3. M3 TEXT FIELDS (Outlined Input + Normal, Hover, Focus, Active & ERROR State)
+   -------------------------------------------------------------------------- */
+.md-field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  margin-bottom: var(--space-4);
+}
+
+.md-field__label {
+  font-size: var(--md-sys-typescale-label-large-size);
+  font-weight: 600;
+  color: var(--md-sys-color-on-surface);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.md-field__control {
+  position: relative;
+  display: flex;
+  align-items: center;
+  background-color: var(--md-sys-color-surface-container-lowest);
+  border: 1.5px solid var(--md-sys-color-outline);
+  border-radius: var(--md-sys-shape-corner-medium);
+  min-height: 54px;
+  padding: 0 var(--space-4);
+  gap: var(--space-3);
+  transition: border-color var(--md-sys-motion-duration-short) var(--md-sys-motion-easing-standard),
+              box-shadow var(--md-sys-motion-duration-short) var(--md-sys-motion-easing-standard),
+              background-color var(--md-sys-motion-duration-short) var(--md-sys-motion-easing-standard);
+}
+
+/* Hover State */
+.md-field__control:hover {
+  border-color: var(--md-sys-color-on-surface);
+  background-color: var(--md-sys-color-surface-bright);
+}
+
+/* Focus / Active State */
+.md-field__control:focus-within {
+  border-color: var(--md-sys-color-primary);
+  border-width: 2px;
+  box-shadow: 0 0 0 3px var(--md-state-primary-hover);
+}
+
+.md-field__icon {
+  color: var(--md-sys-color-on-surface-variant);
+  flex-shrink: 0;
+  display: inline-flex;
+  transition: color var(--md-sys-motion-duration-short);
+}
+
+.md-field__control:focus-within .md-field__icon {
+  color: var(--md-sys-color-primary);
+}
+
+.md-field__input,
+.md-field__select {
+  flex: 1;
+  width: 100%;
+  height: 50px;
+  border: none;
+  background: transparent;
+  color: var(--md-sys-color-on-surface);
+  font-size: var(--md-sys-typescale-body-large-size);
+  outline: none;
+}
+
+.md-field__input::placeholder {
+  color: var(--md-sys-color-outline);
+}
+
+.md-field__helper {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-1);
+  font-size: var(--md-sys-typescale-body-small-size);
+  color: var(--md-sys-color-on-surface-variant);
+  padding: 0 var(--space-2);
+  min-height: 18px;
+}
+
+/* M3 ERROR STATE FOR TEXT FIELDS */
+.md-field.has-error .md-field__label {
+  color: var(--md-sys-color-error);
+}
+
+.md-field.has-error .md-field__control {
+  border-color: var(--md-sys-color-error);
+  border-width: 2px;
+  background-color: rgba(186, 26, 26, 0.03);
+}
+
+.md-field.has-error .md-field__control:hover {
+  border-color: var(--md-sys-color-error-hover);
+}
+
+.md-field.has-error .md-field__control:focus-within {
+  border-color: var(--md-sys-color-error);
+  box-shadow: 0 0 0 3px rgba(186, 26, 26, 0.16);
+}
+
+.md-field.has-error .md-field__icon {
+  color: var(--md-sys-color-error);
+}
+
+.md-field.has-error .md-field__helper {
+  color: var(--md-sys-color-error);
+  font-weight: 600;
+}
+
+.md-field__error-badge {
+  display: none;
+  color: var(--md-sys-color-error);
+  flex-shrink: 0;
+}
+
+.md-field.has-error .md-field__error-badge {
+  display: inline-flex;
+}
+
+/* M3 Error Banner Component */
+.md-alert-banner {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+  padding: var(--space-4);
+  border-radius: var(--md-sys-shape-corner-medium);
+  margin-bottom: var(--space-5);
+  border: 1px solid transparent;
+}
+
+.md-alert-banner--error {
+  background-color: var(--md-sys-color-error-container);
+  color: var(--md-sys-color-on-error-container);
+  border-color: rgba(186, 26, 26, 0.3);
+}
+
+.md-alert-banner__icon {
+  color: var(--md-sys-color-error);
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+/* --------------------------------------------------------------------------
+   4. M3 CARDS (Elevated, Filled, Outlined with Interactive States)
+   -------------------------------------------------------------------------- */
+.md-card {
+  position: relative;
+  border-radius: var(--md-sys-shape-corner-large);
+  background-color: var(--md-sys-color-surface-container-lowest);
+  border: 1px solid var(--md-sys-color-outline-variant);
+  box-shadow: var(--md-sys-elevation-1);
+  transition: transform var(--md-sys-motion-duration-medium) var(--md-sys-motion-easing-standard),
+              box-shadow var(--md-sys-motion-duration-medium) var(--md-sys-motion-easing-standard),
+              border-color var(--md-sys-motion-duration-short) var(--md-sys-motion-easing-standard),
+              background-color var(--md-sys-motion-duration-short) var(--md-sys-motion-easing-standard);
+}
+
+.md-card--interactive {
+  cursor: pointer;
+}
+
+.md-card--interactive:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--md-sys-elevation-3);
+  border-color: var(--md-sys-color-primary);
+}
+
+.md-card--interactive:active {
+  transform: translateY(-1px) scale(0.99);
+  box-shadow: var(--md-sys-elevation-1);
+  background-color: var(--md-sys-color-surface-container-low);
+}
+
+/* --------------------------------------------------------------------------
+   5. M3 FILTER & ASSIST CHIPS (Hick's Law - Fast Scannable Filtering)
+   -------------------------------------------------------------------------- */
+.md-chip-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  align-items: center;
+}
+
+.md-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-height: 40px;
+  padding: 0 var(--space-4);
+  border-radius: var(--md-sys-shape-corner-small);
+  border: 1px solid var(--md-sys-color-outline);
+  background-color: var(--md-sys-color-surface-container-lowest);
+  color: var(--md-sys-color-on-surface-variant);
+  font-size: var(--md-sys-typescale-label-large-size);
+  font-weight: 600;
+  transition: background-color var(--md-sys-motion-duration-short) var(--md-sys-motion-easing-standard),
+              border-color var(--md-sys-motion-duration-short) var(--md-sys-motion-easing-standard),
+              color var(--md-sys-motion-duration-short) var(--md-sys-motion-easing-standard),
+              transform 120ms var(--md-sys-motion-easing-standard),
+              box-shadow var(--md-sys-motion-duration-short) var(--md-sys-motion-easing-standard);
+}
+
+.md-chip:hover {
+  background-color: var(--md-sys-color-surface-container-high);
+  color: var(--md-sys-color-on-surface);
+  border-color: var(--md-sys-color-on-surface);
+}
+
+.md-chip:active {
+  transform: scale(0.96);
+  background-color: var(--md-sys-color-surface-container-highest);
+}
+
+.md-chip.is-selected {
+  background-color: var(--md-sys-color-secondary-container);
+  color: var(--md-sys-color-on-secondary-container);
+  border-color: transparent;
+  box-shadow: var(--md-sys-elevation-1);
+}
+
+.md-chip.is-selected:hover {
+  filter: brightness(0.96);
+}
+
+/* --------------------------------------------------------------------------
+   6. M3 QUANTITY STEPPER (Fitts's Law: Large 40x40px targets)
+   -------------------------------------------------------------------------- */
+.md-stepper {
+  display: inline-flex;
+  align-items: center;
+  background-color: var(--md-sys-color-surface-container);
+  border: 1px solid var(--md-sys-color-outline-variant);
+  border-radius: var(--md-sys-shape-corner-full);
+  padding: 2px;
+}
+
+.md-stepper__btn {
+  width: 38px;
+  height: 38px;
+  border-radius: var(--md-sys-shape-corner-full);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--md-sys-color-on-surface);
+  font-weight: 700;
+  font-size: 1.1rem;
+  transition: background-color var(--md-sys-motion-duration-short),
+              color var(--md-sys-motion-duration-short),
+              transform 100ms;
+}
+
+.md-stepper__btn:hover {
+  background-color: var(--md-sys-color-secondary-container);
+  color: var(--md-sys-color-on-secondary-container);
+}
+
+.md-stepper__btn:active {
+  background-color: var(--md-sys-color-primary);
+  color: var(--md-sys-color-on-primary);
+  transform: scale(0.92);
+}
+
+.md-stepper__value {
+  min-width: 36px;
+  text-align: center;
+  font-weight: 700;
+  font-size: 0.95rem;
+  font-family: var(--md-sys-typescale-font-mono);
+}
+
+/* --------------------------------------------------------------------------
+   7. M3 SNACKBAR & MODAL DIALOG
+   -------------------------------------------------------------------------- */
+.md-snackbar {
+  position: fixed;
+  bottom: var(--space-6);
+  right: var(--space-6);
+  z-index: 900;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  min-width: 320px;
+  max-width: 460px;
+  padding: var(--space-3) var(--space-4) var(--space-3) var(--space-5);
+  border-radius: var(--md-sys-shape-corner-small);
+  background-color: var(--md-sys-color-inverse-surface);
+  color: var(--md-sys-color-inverse-on-surface);
+  box-shadow: var(--md-sys-elevation-3);
+  transform: translateY(150%);
+  opacity: 0;
+  pointer-events: none;
+  transition: transform var(--md-sys-motion-duration-medium) var(--md-sys-motion-easing-emphasized),
+              opacity var(--md-sys-motion-duration-medium) var(--md-sys-motion-easing-standard);
+}
+
+.md-snackbar.is-visible {
+  transform: translateY(0);
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.md-snackbar__action {
+  color: var(--md-sys-color-inverse-primary);
+  font-weight: 700;
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--md-sys-shape-corner-small);
+  transition: background-color var(--md-sys-motion-duration-short);
+}
+
+.md-snackbar__action:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.md-snackbar__action:active {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+/* M3 Dialog Backdrop & Container */
+.md-dialog-scrim {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  background-color: var(--md-sys-color-scrim);
+  backdrop-filter: blur(3px);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-4);
+}
+
+.md-dialog-scrim.is-open {
+  display: flex;
+  animation: mdScreenFadeIn 200ms ease-out forwards;
+}
+
+.md-dialog {
+  background-color: var(--md-sys-color-surface-container-high);
+  color: var(--md-sys-color-on-surface);
+  border-radius: var(--md-sys-shape-corner-extra-large);
+  box-shadow: var(--md-sys-elevation-5);
+  width: 100%;
+  max-width: 540px;
+  padding: var(--space-6);
+  border: 1px solid var(--md-sys-color-outline-variant);
+  max-height: 90vh;
+  overflow-y: auto;
+}
